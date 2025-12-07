@@ -246,6 +246,7 @@ func (p *Predict) Process(ctx context.Context, inputs map[string]interface{}, op
 	// Fall back to traditional text-based approach
 	prompt := formatPrompt(signature, p.Demos, inputs)
 	logger.Debug(ctx, "Generated prompt with prompt: %v", prompt)
+	logger.Debug(ctx, "Generation Options: %v", finalOptions.GenerateOptions)
 
 	resp, err := p.LLM.Generate(ctx, prompt, finalOptions.GenerateOptions...)
 	if err != nil {
