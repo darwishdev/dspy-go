@@ -401,7 +401,6 @@ func (ts *typedSignatureImpl[TInput, TOutput]) ToLegacySignature() Signature {
 			Field: Field{
 				Name:        field.Name,
 				Description: field.Description,
-				Prefix:      field.Prefix,
 				Type:        field.Type,
 			},
 		}
@@ -413,7 +412,6 @@ func (ts *typedSignatureImpl[TInput, TOutput]) ToLegacySignature() Signature {
 			Field: Field{
 				Name:        field.Name,
 				Description: field.Description,
-				Prefix:      field.Prefix,
 				Type:        field.Type,
 			},
 		}
