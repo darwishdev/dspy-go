@@ -1,8 +1,8 @@
 # DSPy-Go
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/XiaoConstantine/dspy-go)](https://goreportcard.com/report/github.com/XiaoConstantine/dspy-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/darwishdev/dspy-go)](https://goreportcard.com/report/github.com/darwishdev/dspy-go)
 [![codecov](https://codecov.io/gh/XiaoConstantine/dspy-go/graph/badge.svg?token=GGKRLMLXJ9)](https://codecov.io/gh/XiaoConstantine/dspy-go)
-[![Go Reference](https://pkg.go.dev/badge/github.com/XiaoConstantine/dspy-go)](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/darwishdev/dspy-go)](https://pkg.go.dev/github.com/darwishdev/dspy-go)
 
 ## What is DSPy-Go?
 
@@ -31,7 +31,7 @@ DSPy-Go is a native Go implementation of the DSPy framework, bringing systematic
 ## Installation
 
 ```go
-go get github.com/XiaoConstantine/dspy-go
+go get github.com/darwishdev/dspy-go
 ```
 
 ## 🚀 Quick Start with CLI (Recommended)
@@ -67,9 +67,9 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -736,7 +736,7 @@ react := modules.NewReAct(signature, registry, 5)
 DSPy-Go includes an intelligent tool management system that uses Bayesian inference for optimal tool selection:
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/tools"
+import "github.com/darwishdev/dspy-go/pkg/tools"
 
 // Create intelligent tool registry
 config := &tools.SmartToolRegistryConfig{
@@ -776,7 +776,7 @@ DSPy-Go provides powerful capabilities for chaining and composing tools to build
 Create sequential pipelines with data transformation and conditional execution:
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/tools"
+import "github.com/darwishdev/dspy-go/pkg/tools"
 
 // Create a tool pipeline with fluent API
 pipeline, err := tools.NewPipelineBuilder("data_processing", registry).
@@ -942,7 +942,7 @@ DSPy-Go supports integration with MCP servers for accessing external tools and s
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
     "github.com/XiaoConstantine/mcp-go/pkg/client"
 )
 
@@ -993,7 +993,7 @@ result, err := module.Process(ctx, inputs)
 DSPy-Go provides built-in support for downloading and managing common datasets:
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/datasets"
+import "github.com/darwishdev/dspy-go/pkg/datasets"
 
 // Automatically download and get path to GSM8K dataset
 gsm8kPath, err := datasets.EnsureDataset("gsm8k")
@@ -1150,7 +1150,7 @@ The Multimodal Processing example demonstrates:
 
 For more detailed documentation:
 
-* [GoDoc Reference](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go): Full API documentation
+* [GoDoc Reference](https://pkg.go.dev/github.com/darwishdev/dspy-go): Full API documentation
 * [Example Apps: Maestro](https://github.com/XiaoConstantine/maestro): A local code review & question answering agent built on top of dspy-go
 
 ## License

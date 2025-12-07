@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/core"
 	"github.com/fatih/color"
 )
 

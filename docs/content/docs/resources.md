@@ -23,15 +23,15 @@ Comprehensive collection of tools, examples, and learning materials for dspy-go.
 ## Official Resources
 
 ### Documentation
-- **[GoDoc API Reference](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go)** - Complete API documentation
-- **[GitHub Repository](https://github.com/XiaoConstantine/dspy-go)** - Source code and latest updates
+- **[GoDoc API Reference](https://pkg.go.dev/github.com/darwishdev/dspy-go)** - Complete API documentation
+- **[GitHub Repository](https://github.com/darwishdev/dspy-go)** - Source code and latest updates
 - **[Getting Started Guide](../guides/getting-started/)** - Quick start tutorial
 - **[Core Concepts](../guides/core-concepts/)** - Understanding Signatures, Modules, Programs
 - **[Optimizers Guide](../guides/optimizers/)** - Master GEPA, MIPRO, SIMBA
 
 ### Tools
-- **[dspy-cli](https://github.com/XiaoConstantine/dspy-go/tree/main/cmd/dspy-cli)** - Command-line tool for testing optimizers
-- **[Compatibility Testing Framework](https://github.com/XiaoConstantine/dspy-go/tree/main/compatibility_test)** - Validate against Python DSPy
+- **[dspy-cli](https://github.com/darwishdev/dspy-go/tree/main/cmd/dspy-cli)** - Command-line tool for testing optimizers
+- **[Compatibility Testing Framework](https://github.com/darwishdev/dspy-go/tree/main/compatibility_test)** - Validate against Python DSPy
 
 ---
 
@@ -40,20 +40,20 @@ Comprehensive collection of tools, examples, and learning materials for dspy-go.
 ### Core Examples
 
 #### Quick Start
-- **[Sentiment Analysis](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - Simple prediction example
-- **[Question Answering](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/hotpotqa)** - HotPotQA implementation
-- **[Math Problems](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/gsm8k)** - GSM8K math reasoning
+- **[Sentiment Analysis](https://github.com/darwishdev/dspy-go/tree/main/examples)** - Simple prediction example
+- **[Question Answering](https://github.com/darwishdev/dspy-go/tree/main/examples/hotpotqa)** - HotPotQA implementation
+- **[Math Problems](https://github.com/darwishdev/dspy-go/tree/main/examples/gsm8k)** - GSM8K math reasoning
 
 #### Advanced Features
-- **[Smart Tool Registry](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/smart_tool_registry)** - Bayesian tool selection
-- **[Tool Chaining](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_chaining)** - Sequential pipeline execution
-- **[Tool Composition](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_composition)** - Reusable composite tools
-- **[Parallel Processing](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/parallel)** - Concurrent batch operations
-- **[Refine Module](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/refine)** - Quality improvement
-- **[MultiChainComparison](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/multi_chain_comparison)** - Multi-perspective reasoning
+- **[Smart Tool Registry](https://github.com/darwishdev/dspy-go/tree/main/examples/smart_tool_registry)** - Bayesian tool selection
+- **[Tool Chaining](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_chaining)** - Sequential pipeline execution
+- **[Tool Composition](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_composition)** - Reusable composite tools
+- **[Parallel Processing](https://github.com/darwishdev/dspy-go/tree/main/examples/parallel)** - Concurrent batch operations
+- **[Refine Module](https://github.com/darwishdev/dspy-go/tree/main/examples/refine)** - Quality improvement
+- **[MultiChainComparison](https://github.com/darwishdev/dspy-go/tree/main/examples/multi_chain_comparison)** - Multi-perspective reasoning
 
 #### Multimodal
-- **[Multimodal Processing](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/multimodal)** - Image analysis and vision Q&A
+- **[Multimodal Processing](https://github.com/darwishdev/dspy-go/tree/main/examples/multimodal)** - Image analysis and vision Q&A
   - Image analysis with questions
   - Vision question answering
   - Multimodal chat
@@ -61,12 +61,12 @@ Comprehensive collection of tools, examples, and learning materials for dspy-go.
   - Multiple image comparison
 
 #### Optimizers
-- **[MIPRO Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/mipro)** - TPE-based optimization
-- **[SIMBA Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/simba)** - Introspective learning
-- **[GEPA Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/gepa)** - Evolutionary optimization
+- **[MIPRO Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/mipro)** - TPE-based optimization
+- **[SIMBA Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/simba)** - Introspective learning
+- **[GEPA Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/gepa)** - Evolutionary optimization
 
 #### Agent Patterns
-- **[Agent Examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/agents)** - Various agent implementations
+- **[Agent Examples](https://github.com/darwishdev/dspy-go/tree/main/examples/agents)** - Various agent implementations
   - ReAct pattern
   - Orchestrator pattern
   - Memory management
@@ -103,7 +103,7 @@ Coming soon! Check the GitHub repository for announcements.
 - Prompt Optimization Strategies *(coming soon)*
 
 ### Community Examples
-Check [GitHub Discussions](https://github.com/XiaoConstantine/dspy-go/discussions) for community-contributed examples and patterns.
+Check [GitHub Discussions](https://github.com/darwishdev/dspy-go/discussions) for community-contributed examples and patterns.
 
 ---
 
@@ -115,7 +115,7 @@ dspy-go includes automatic downloading and management for popular datasets:
 
 #### GSM8K - Grade School Math
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/datasets"
+import "github.com/darwishdev/dspy-go/pkg/datasets"
 
 // Automatically downloads if not present
 gsm8kPath, err := datasets.EnsureDataset("gsm8k")
@@ -222,7 +222,7 @@ for _, step := range steps {
 
 ### Monitoring
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/logging"
+import "github.com/darwishdev/dspy-go/pkg/logging"
 
 // Configure logging
 logger := logging.NewLogger(logging.Config{
@@ -237,19 +237,19 @@ logging.SetLogger(logger)
 ## Community & Support
 
 ### Get Help
-- **[GitHub Issues](https://github.com/XiaoConstantine/dspy-go/issues)** - Bug reports and feature requests
-- **[GitHub Discussions](https://github.com/XiaoConstantine/dspy-go/discussions)** - Questions and community support
+- **[GitHub Issues](https://github.com/darwishdev/dspy-go/issues)** - Bug reports and feature requests
+- **[GitHub Discussions](https://github.com/darwishdev/dspy-go/discussions)** - Questions and community support
 - **[Stack Overflow](https://stackoverflow.com/questions/tagged/dspy-go)** - Q&A with the community
 
 ### Contributing
-- **[Contributing Guide](https://github.com/XiaoConstantine/dspy-go/blob/main/CONTRIBUTING.md)** - How to contribute
-- **[Development Setup](https://github.com/XiaoConstantine/dspy-go#development)** - Set up your dev environment
-- **[Code of Conduct](https://github.com/XiaoConstantine/dspy-go/blob/main/CODE_OF_CONDUCT.md)** - Community guidelines
+- **[Contributing Guide](https://github.com/darwishdev/dspy-go/blob/main/CONTRIBUTING.md)** - How to contribute
+- **[Development Setup](https://github.com/darwishdev/dspy-go#development)** - Set up your dev environment
+- **[Code of Conduct](https://github.com/darwishdev/dspy-go/blob/main/CODE_OF_CONDUCT.md)** - Community guidelines
 
 ### Stay Updated
-- ⭐ **[Star on GitHub](https://github.com/XiaoConstantine/dspy-go)** - Get notifications
-- 👀 **[Watch Releases](https://github.com/XiaoConstantine/dspy-go/releases)** - Stay informed of new versions
-- 💬 **[Join Discussions](https://github.com/XiaoConstantine/dspy-go/discussions)** - Participate in the community
+- ⭐ **[Star on GitHub](https://github.com/darwishdev/dspy-go)** - Get notifications
+- 👀 **[Watch Releases](https://github.com/darwishdev/dspy-go/releases)** - Stay informed of new versions
+- 💬 **[Join Discussions](https://github.com/darwishdev/dspy-go/discussions)** - Participate in the community
 
 ---
 
@@ -269,7 +269,7 @@ logging.SetLogger(logger)
 
 ### Compatibility Results
 dspy-go maintains compatibility with Python DSPy implementations. See:
-- **[Compatibility Test Results](https://github.com/XiaoConstantine/dspy-go/tree/main/compatibility_test)** - Validation against Python DSPy
+- **[Compatibility Test Results](https://github.com/darwishdev/dspy-go/tree/main/compatibility_test)** - Validation against Python DSPy
 
 ### Performance Metrics
 - Parallel processing can improve throughput by 3-4x
@@ -306,4 +306,4 @@ dspy-go maintains compatibility with Python DSPy implementations. See:
 - **[Getting Started →](../guides/getting-started/)** - Build your first application
 - **[Core Concepts →](../guides/core-concepts/)** - Master the fundamentals
 - **[Optimizers →](../guides/optimizers/)** - Improve your prompts automatically
-- **[Examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - Learn from working code
+- **[Examples](https://github.com/darwishdev/dspy-go/tree/main/examples)** - Learn from working code

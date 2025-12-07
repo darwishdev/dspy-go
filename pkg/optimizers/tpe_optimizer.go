@@ -8,8 +8,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/utils"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
 // TPEConfig contains configuration for Tree-structured Parzen Estimators.

@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
 )
 
 // CustomConfigExample demonstrates creating custom XML configurations.

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"testing"
 
-	testutil "github.com/XiaoConstantine/dspy-go/internal/testutil"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
-	"github.com/XiaoConstantine/dspy-go/pkg/tools"
+	testutil "github.com/darwishdev/dspy-go/internal/testutil"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
+	"github.com/darwishdev/dspy-go/pkg/tools"
 
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 	"github.com/stretchr/testify/assert"

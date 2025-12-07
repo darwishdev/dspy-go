@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/utils"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 type Predict struct {

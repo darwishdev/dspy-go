@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // Event represents a reactive event that can trigger workflow execution.

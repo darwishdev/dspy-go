@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
 )
 
 // BasicXMLExample demonstrates basic XMLAdapter usage.

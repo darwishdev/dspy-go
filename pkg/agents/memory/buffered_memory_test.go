@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	pkgErrors "github.com/XiaoConstantine/dspy-go/pkg/errors" // Alias custom errors package
+	pkgErrors "github.com/darwishdev/dspy-go/pkg/errors" // Alias custom errors package
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

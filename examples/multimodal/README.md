@@ -215,7 +215,7 @@ conversation := []core.ContentBlock{
 Enable debug logging to see detailed request/response information:
 ```go
 // Initialize logging with DEBUG level
-import "github.com/XiaoConstantine/dspy-go/pkg/logging"
+import "github.com/darwishdev/dspy-go/pkg/logging"
 
 output := logging.NewConsoleOutput(true, logging.WithColor(true))
 logger := logging.NewLogger(logging.Config{

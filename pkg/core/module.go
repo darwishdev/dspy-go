@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/utils"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
 // Module represents a basic unit of computation in DSPy.

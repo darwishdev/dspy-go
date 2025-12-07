@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // Use the existing RetryConfig from step.go

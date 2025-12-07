@@ -31,7 +31,7 @@ The Smart Tool Registry is an intelligent tool management system that provides a
 ### Basic Setup
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/tools"
+import "github.com/darwishdev/dspy-go/pkg/tools"
 
 // Create a smart tool registry
 config := &tools.SmartToolRegistryConfig{

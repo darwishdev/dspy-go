@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // RunMode defines different optimization intensities for MIPRO.

@@ -6,8 +6,8 @@ import (
 	"sync"
 	"testing"
 
-	contextmgmt "github.com/XiaoConstantine/dspy-go/pkg/agents/context"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	contextmgmt "github.com/darwishdev/dspy-go/pkg/agents/context"
+	"github.com/darwishdev/dspy-go/pkg/core"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

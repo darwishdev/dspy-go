@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // TodoManager implements Manus's todo.md attention manipulation pattern.

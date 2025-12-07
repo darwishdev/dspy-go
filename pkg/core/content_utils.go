@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // Content creation utilities for multimodal content handling.

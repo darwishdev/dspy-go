@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive"
 )
 
 // NewInteractiveCommand creates the interactive command

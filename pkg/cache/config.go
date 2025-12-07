@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/config"
+	"github.com/darwishdev/dspy-go/pkg/config"
 )
 
 // 3. Smart defaults (lowest priority).

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // ParseJSONResponse attempts to parse a string response as JSON.

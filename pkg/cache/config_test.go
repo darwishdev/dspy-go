@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/config"
+	"github.com/darwishdev/dspy-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
 

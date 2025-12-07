@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // KeyGenerator generates cache keys for LLM requests.

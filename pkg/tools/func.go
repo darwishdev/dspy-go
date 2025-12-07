@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/core"
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 )
 

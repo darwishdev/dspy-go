@@ -3,7 +3,7 @@ package utils
 import (
 	"log"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 func SetupLLM(apiKey string, modelID core.ModelID) {

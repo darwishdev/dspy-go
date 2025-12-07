@@ -9,10 +9,10 @@ import (
 
 	"github.com/anthropics/anthropic-sdk-go"
 	"github.com/anthropics/anthropic-sdk-go/option"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	errs "github.com/XiaoConstantine/dspy-go/pkg/errors"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/utils"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	errs "github.com/darwishdev/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
 // AnthropicLLM implements the core.LLM interface for Anthropic's models.

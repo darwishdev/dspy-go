@@ -4,8 +4,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // InMemoryToolRegistry provides a basic in-memory implementation of the ToolRegistry interface.

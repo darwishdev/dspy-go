@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	pkgErrors "github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	pkgErrors "github.com/darwishdev/dspy-go/pkg/errors"
 	"github.com/XiaoConstantine/mcp-go/pkg/client"
 	"github.com/XiaoConstantine/mcp-go/pkg/logging"
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/agents"
 )
 
 // ============================================================================

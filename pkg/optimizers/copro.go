@@ -9,9 +9,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 // COPRO implements the Chain-of-Processing optimizer for prompt instruction and prefix optimization.

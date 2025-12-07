@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/display"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/optimizers"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/display"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/optimizers"
 )
 
 func NewDescribeCommand() *cobra.Command {

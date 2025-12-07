@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/commands"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/commands"
 )
 
 var rootCmd = &cobra.Command{

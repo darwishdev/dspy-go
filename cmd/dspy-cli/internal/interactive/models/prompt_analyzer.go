@@ -7,9 +7,9 @@ import (
 
 	"github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/styles"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/structured"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/styles"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/structured"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // PromptAnalyzerModel represents the prompt analyzer screen

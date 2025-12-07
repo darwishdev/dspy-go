@@ -62,7 +62,7 @@ export GEMINI_API_KEY="your-api-key-here"
 
 ```bash
 # Clone the repository
-git clone https://github.com/XiaoConstantine/dspy-go.git
+git clone https://github.com/darwishdev/dspy-go.git
 cd dspy-go/cmd/dspy-cli
 
 # Build the CLI

@@ -24,11 +24,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/optimizers"
-	"github.com/XiaoConstantine/dspy-go/pkg/tools"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/optimizers"
+	"github.com/darwishdev/dspy-go/pkg/tools"
 	mcpLogging "github.com/XiaoConstantine/mcp-go/pkg/logging"
 )
 

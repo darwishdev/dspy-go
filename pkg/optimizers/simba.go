@@ -9,10 +9,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	dspyModules "github.com/XiaoConstantine/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	dspyModules "github.com/darwishdev/dspy-go/pkg/modules"
 	"github.com/sourcegraph/conc/pool"
 )
 

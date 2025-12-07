@@ -50,9 +50,9 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -188,7 +188,7 @@ registry.Register(&EmailTool{})
 react := modules.NewReAct(signature, registry, 10)
 ```
 
-**[Full Agents Example →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/agents)**
+**[Full Agents Example →](https://github.com/darwishdev/dspy-go/tree/main/examples/agents)**
 
 ---
 
@@ -205,7 +205,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents/memory"
+    "github.com/darwishdev/dspy-go/pkg/agents/memory"
 )
 
 func main() {
@@ -294,8 +294,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/agents"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -357,7 +357,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents"
+    "github.com/darwishdev/dspy-go/pkg/agents"
 )
 
 type MultiAgentSystem struct {
@@ -452,10 +452,10 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents/memory"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/agents/memory"
 )
 
 type ProductionAgent struct {
@@ -585,9 +585,9 @@ func main() {
 ## Examples
 
 ### Complete Agent Examples
-- **[Agents Package Examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/agents)** - ReAct, orchestrator, memory
+- **[Agents Package Examples](https://github.com/darwishdev/dspy-go/tree/main/examples/agents)** - ReAct, orchestrator, memory
 - **[Maestro](https://github.com/XiaoConstantine/maestro)** - Production code review agent
-- **[Smart Tool Registry](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/smart_tool_registry)** - Advanced tool management
+- **[Smart Tool Registry](https://github.com/darwishdev/dspy-go/tree/main/examples/smart_tool_registry)** - Advanced tool management
 
 ### Running the Examples
 
@@ -607,4 +607,4 @@ cd maestro && go run main.go
 - **[Tool Management →](tools/)** - Build sophisticated tool systems
 - **[Core Concepts →](core-concepts/)** - Understand modules and signatures
 - **[Optimizers →](optimizers/)** - Improve agent performance automatically
-- **[Examples →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - More agent patterns
+- **[Examples →](https://github.com/darwishdev/dspy-go/tree/main/examples)** - More agent patterns

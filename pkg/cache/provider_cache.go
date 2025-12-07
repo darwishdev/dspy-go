@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // ProviderCache is a helper struct that can be embedded in LLM providers

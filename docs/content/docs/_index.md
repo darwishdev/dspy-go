@@ -103,12 +103,12 @@ response, _ := agent.Chat(ctx, "What's the population of Tokyo divided by 1000?"
 - **[Building Agents →](guides/agents/)** - ReAct patterns, orchestration, and memory
 - **[Optimizers →](guides/optimizers/)** - Master GEPA, MIPRO, SIMBA and more
 - **[Tool Management →](guides/tools/)** - Smart Registry, MCP, and tool chaining
-- **[Examples →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - Real-world implementations
+- **[Examples →](https://github.com/darwishdev/dspy-go/tree/main/examples)** - Real-world implementations
 
 ## Community & Support
 
-- **GitHub**: [XiaoConstantine/dspy-go](https://github.com/XiaoConstantine/dspy-go)
-- **Go Docs**: [pkg.go.dev](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go)
+- **GitHub**: [XiaoConstantine/dspy-go](https://github.com/darwishdev/dspy-go)
+- **Go Docs**: [pkg.go.dev](https://pkg.go.dev/github.com/darwishdev/dspy-go)
 - **Example App**: [Maestro](https://github.com/XiaoConstantine/maestro) - Code review agent built with dspy-go
 
 Ready to get started? Head to [Getting Started](guides/getting-started/) →

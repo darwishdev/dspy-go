@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // GoroutineStats tracks goroutine statistics.

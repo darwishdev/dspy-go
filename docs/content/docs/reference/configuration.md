@@ -140,7 +140,7 @@ DSPY_BATCH_SIZE=5
 Automatically configures based on environment variables:
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/core"
+import "github.com/darwishdev/dspy-go/pkg/core"
 
 func main() {
     // Detects and configures LLM from environment
@@ -169,8 +169,8 @@ func main() {
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Basic setup
@@ -315,7 +315,7 @@ result, err := llm.GenerateWithOptions(ctx, prompt, opts)
 ### Retry Configuration
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/core"
+import "github.com/darwishdev/dspy-go/pkg/core"
 
 llm.SetMaxRetries(5)
 llm.SetRetryDelay(2 * time.Second)

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/agents"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // RouterWorkflow directs inputs to different processing paths based on

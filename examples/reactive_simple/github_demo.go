@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	"github.com/XiaoConstantine/dspy-go/pkg/agents/workflows"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/agents/workflows"
 )
 
 // SimpleAgent demonstrates basic reactive agent functionality.

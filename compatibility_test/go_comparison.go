@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/cache"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/datasets"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
-	"github.com/XiaoConstantine/dspy-go/pkg/optimizers"
+	"github.com/darwishdev/dspy-go/pkg/cache"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/datasets"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/optimizers"
 )
 
 // ComparisonMetrics tracks metrics for comparison.

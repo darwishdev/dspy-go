@@ -7,13 +7,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	contextmgmt "github.com/XiaoConstantine/dspy-go/pkg/agents/context"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
-	"github.com/XiaoConstantine/dspy-go/pkg/tools"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	contextmgmt "github.com/darwishdev/dspy-go/pkg/agents/context"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 // ExecutionMode defines how the agent executes tasks.

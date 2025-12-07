@@ -7,7 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	"github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/styles"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/styles"
 )
 
 // HelpModel represents the help system state
@@ -364,7 +364,7 @@ Solutions:
 ## Getting Help
 - Press ? anywhere for context help
 - Check logs in ~/.dspy/logs/
-- Report issues: github.com/XiaoConstantine/dspy-go`,
+- Report issues: github.com/darwishdev/dspy-go`,
 			KeyBindings: []KeyBinding{
 				{"?", "Context-sensitive help"},
 				{"q", "Back to main interface"},

@@ -8,9 +8,9 @@ import (
 	"sort"
 	"testing"
 
-	testutil "github.com/XiaoConstantine/dspy-go/internal/testutil"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	pkgErrors "github.com/XiaoConstantine/dspy-go/pkg/errors"
+	testutil "github.com/darwishdev/dspy-go/internal/testutil"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	pkgErrors "github.com/darwishdev/dspy-go/pkg/errors"
 	"github.com/XiaoConstantine/mcp-go/pkg/logging"
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 	"github.com/stretchr/testify/assert"

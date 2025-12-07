@@ -23,12 +23,12 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/config"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	dspyLogging "github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
-	"github.com/XiaoConstantine/dspy-go/pkg/tools"
+	"github.com/darwishdev/dspy-go/pkg/config"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	dspyLogging "github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/tools"
 	mcpLogging "github.com/XiaoConstantine/mcp-go/pkg/logging"
 )
 

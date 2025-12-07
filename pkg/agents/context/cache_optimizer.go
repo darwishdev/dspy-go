@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // CacheOptimizer implements Manus-inspired KV-cache optimization patterns.

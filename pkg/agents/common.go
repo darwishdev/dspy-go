@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // XMLNormalizer handles cleaning and standardization of XML content.

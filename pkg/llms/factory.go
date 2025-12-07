@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/cache"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/cache"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 type DefaultLLMFactory struct{}

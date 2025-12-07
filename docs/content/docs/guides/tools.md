@@ -38,7 +38,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -66,7 +66,7 @@ func main() {
 }
 ```
 
-**[Full Smart Tool Registry Example →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/smart_tool_registry)**
+**[Full Smart Tool Registry Example →](https://github.com/darwishdev/dspy-go/tree/main/examples/smart_tool_registry)**
 
 ---
 
@@ -83,7 +83,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -133,7 +133,7 @@ transformer := tools.TransformChain(
 )
 ```
 
-**[Full Tool Chaining Example →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_chaining)**
+**[Full Tool Chaining Example →](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_chaining)**
 
 ---
 
@@ -150,7 +150,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -219,7 +219,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -275,7 +275,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 // Helper function to create composite tools
@@ -315,7 +315,7 @@ func main() {
 }
 ```
 
-**[Full Tool Composition Example →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_composition)**
+**[Full Tool Composition Example →](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_composition)**
 
 ---
 
@@ -329,7 +329,7 @@ func main() {
 package main
 
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
     "github.com/XiaoConstantine/mcp-go/pkg/client"
 )
 
@@ -390,9 +390,9 @@ selectedTool, err := smartRegistry.SelectBest(ctx, "analyze financial data")
 ## Examples
 
 ### Complete Examples
-- **[Smart Tool Registry](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/smart_tool_registry)** - Intelligent tool selection showcase
-- **[Tool Chaining](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_chaining)** - Pipeline building and transformations
-- **[Tool Composition](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_composition)** - Creating composite tools
+- **[Smart Tool Registry](https://github.com/darwishdev/dspy-go/tree/main/examples/smart_tool_registry)** - Intelligent tool selection showcase
+- **[Tool Chaining](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_chaining)** - Pipeline building and transformations
+- **[Tool Composition](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_composition)** - Creating composite tools
 
 ### Running the Examples
 
@@ -413,4 +413,4 @@ cd examples/tool_composition && go run main.go
 
 - **[Agents Guide →](agents/)** - Build agents using ReAct and tool management
 - **[Core Concepts →](core-concepts/)** - Understand modules and programs
-- **[Examples →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - More working examples
+- **[Examples →](https://github.com/darwishdev/dspy-go/tree/main/examples)** - More working examples

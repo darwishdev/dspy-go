@@ -39,8 +39,8 @@ dspy-go supports multiple LLM providers with native integrations. Each provider 
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Basic setup
@@ -135,8 +135,8 @@ llm, _ := llms.NewGeminiLLM(key, core.ModelGoogleGeminiPro)
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Basic setup
@@ -257,8 +257,8 @@ llm.SetRetryDelay(time.Second)
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Basic setup
@@ -340,7 +340,7 @@ llm, _ := llms.NewAnthropicLLM(key, core.ModelAnthropicHaiku)
 
 ```go
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Basic setup (assumes Ollama running on localhost:11434)

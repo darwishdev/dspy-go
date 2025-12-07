@@ -3,8 +3,8 @@ package tools
 import (
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // PipelineBuilder provides a fluent API for constructing tool pipelines.

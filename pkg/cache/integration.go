@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/config"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/config"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 var (

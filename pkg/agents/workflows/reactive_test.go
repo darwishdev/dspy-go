@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/core"
 )
 
 // ReactiveMockModule for testing reactive workflows.

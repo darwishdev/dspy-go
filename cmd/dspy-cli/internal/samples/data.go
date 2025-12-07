@@ -1,6 +1,6 @@
 package samples
 
-import "github.com/XiaoConstantine/dspy-go/pkg/core"
+import "github.com/darwishdev/dspy-go/pkg/core"
 
 // SampleDataset represents a small dataset for quick experimentation
 type SampleDataset struct {

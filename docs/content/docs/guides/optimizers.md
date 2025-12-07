@@ -91,9 +91,9 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
-    "github.com/XiaoConstantine/dspy-go/pkg/datasets"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/optimizers"
+    "github.com/darwishdev/dspy-go/pkg/datasets"
 )
 
 func main() {
@@ -225,7 +225,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
+    "github.com/darwishdev/dspy-go/pkg/optimizers"
 )
 
 func main() {
@@ -309,7 +309,7 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
+    "github.com/darwishdev/dspy-go/pkg/optimizers"
 )
 
 func main() {
@@ -377,8 +377,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
-    "github.com/XiaoConstantine/dspy-go/pkg/metrics"
+    "github.com/darwishdev/dspy-go/pkg/optimizers"
+    "github.com/darwishdev/dspy-go/pkg/metrics"
 )
 
 func main() {
@@ -422,8 +422,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
-    "github.com/XiaoConstantine/dspy-go/pkg/metrics"
+    "github.com/darwishdev/dspy-go/pkg/optimizers"
+    "github.com/darwishdev/dspy-go/pkg/metrics"
 )
 
 func main() {
@@ -483,7 +483,7 @@ Every optimizer needs a metric to optimize for:
 ### Built-in Metrics
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/metrics"
+import "github.com/darwishdev/dspy-go/pkg/metrics"
 
 // Exact match
 exactMatch := metrics.NewExactMatchMetric("answer")
@@ -578,12 +578,12 @@ cd cmd/dspy-cli && go build
 ## What's Next?
 
 - **[Core Concepts](core-concepts/)** - Understand what optimizers improve
-- **[Examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - See optimizers in action
-- **[Compatibility Testing](https://github.com/XiaoConstantine/dspy-go/tree/main/compatibility_test)** - Verify optimizer behavior
+- **[Examples](https://github.com/darwishdev/dspy-go/tree/main/examples)** - See optimizers in action
+- **[Compatibility Testing](https://github.com/darwishdev/dspy-go/tree/main/compatibility_test)** - Verify optimizer behavior
 
 ### Example Applications
 
-- [MIPRO Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/mipro)
-- [SIMBA Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/simba)
-- [GEPA Example](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/others/gepa)
-- [GSM8K with Bootstrap](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/gsm8k)
+- [MIPRO Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/mipro)
+- [SIMBA Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/simba)
+- [GEPA Example](https://github.com/darwishdev/dspy-go/tree/main/examples/others/gepa)
+- [GSM8K with Bootstrap](https://github.com/darwishdev/dspy-go/tree/main/examples/gsm8k)

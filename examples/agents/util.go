@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	workflows "github.com/XiaoConstantine/dspy-go/pkg/agents/workflows"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	workflows "github.com/darwishdev/dspy-go/pkg/agents/workflows"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func CreateClassifierStep() *workflows.Step {

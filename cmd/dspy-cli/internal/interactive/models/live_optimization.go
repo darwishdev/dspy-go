@@ -9,8 +9,8 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	"github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/styles"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/runner"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/styles"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/runner"
 )
 
 // Optimization phases for progress tracking

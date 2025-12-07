@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // ErrorRetainer implements Manus's error retention pattern for implicit learning.

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/structured"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/structured"
 )
 
 // Signature represents a simplified DSPy signature for display

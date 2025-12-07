@@ -21,15 +21,15 @@ Complete technical reference for all dspy-go packages, modules, and configuratio
 ## Quick Links
 
 ### Core Packages
-- **[core](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/core)** - Signatures, fields, and base abstractions
-- **[modules](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/modules)** - Predict, ChainOfThought, ReAct, and more
-- **[llms](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/llms)** - LLM provider integrations
-- **[optimizers](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/optimizers)** - GEPA, MIPRO, SIMBA, Bootstrap, COPRO
+- **[core](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/core)** - Signatures, fields, and base abstractions
+- **[modules](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/modules)** - Predict, ChainOfThought, ReAct, and more
+- **[llms](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/llms)** - LLM provider integrations
+- **[optimizers](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/optimizers)** - GEPA, MIPRO, SIMBA, Bootstrap, COPRO
 
 ### Advanced Packages
-- **[tools](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/tools)** - Smart tool registry and management
-- **[agents](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/agents)** - Agent orchestration and memory
-- **[agents/memory](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go/pkg/agents/memory)** - Conversation memory systems
+- **[tools](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/tools)** - Smart tool registry and management
+- **[agents](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/agents)** - Agent orchestration and memory
+- **[agents/memory](https://pkg.go.dev/github.com/darwishdev/dspy-go/pkg/agents/memory)** - Conversation memory systems
 
 ---
 
@@ -39,7 +39,7 @@ Complete technical reference for all dspy-go packages, modules, and configuratio
 
 For complete API documentation with all types, interfaces, and functions, visit:
 
-**[pkg.go.dev/github.com/XiaoConstantine/dspy-go](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go)**
+**[pkg.go.dev/github.com/darwishdev/dspy-go](https://pkg.go.dev/github.com/darwishdev/dspy-go)**
 
 The GoDoc provides:
 - ✅ Full type definitions
@@ -83,7 +83,7 @@ module.SetLLM(customLLM)
 ### Error Handling
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/core"
+import "github.com/darwishdev/dspy-go/pkg/core"
 
 // Check for specific error types
 if err != nil {
@@ -257,7 +257,7 @@ limiter.Wait(ctx)
 
 ## Next Steps
 
-- **[Browse Full API on pkg.go.dev →](https://pkg.go.dev/github.com/XiaoConstantine/dspy-go)**
+- **[Browse Full API on pkg.go.dev →](https://pkg.go.dev/github.com/darwishdev/dspy-go)**
 - **[Configuration Reference →](configuration/)**
 - **[CLI Reference →](cli/)**
 - **[LLM Providers →](providers/)**

@@ -9,13 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	workflows "github.com/XiaoConstantine/dspy-go/pkg/agents/workflows"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	workflows "github.com/darwishdev/dspy-go/pkg/agents/workflows"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/modules"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 func RunChainExample(ctx context.Context, logger *logging.Logger) {

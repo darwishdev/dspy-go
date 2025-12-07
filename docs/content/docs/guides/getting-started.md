@@ -82,7 +82,7 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 - **Compare Results**: Run multiple optimizers and compare performance
 - **No Code Required**: Everything works out of the box
 
-[Full CLI Documentation →](https://github.com/XiaoConstantine/dspy-go/tree/main/cmd/dspy-cli/README.md)
+[Full CLI Documentation →](https://github.com/darwishdev/dspy-go/tree/main/cmd/dspy-cli/README.md)
 
 ---
 
@@ -95,7 +95,7 @@ Build custom LLM applications with full programmatic control.
 Add `dspy-go` to your project using `go get`:
 
 ```bash
-go get github.com/XiaoConstantine/dspy-go
+go get github.com/darwishdev/dspy-go
 ```
 
 ### 2. Set Up Your API Key
@@ -128,9 +128,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	"github.com/XiaoConstantine/dspy-go/pkg/modules"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -208,11 +208,11 @@ Learn about the building blocks of dspy-go:
 
 ### Examples
 Check out real-world implementations:
-- [Question Answering](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/hotpotqa)
-- [Math Problem Solving](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/gsm8k)
-- [Smart Tool Registry](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/smart_tool_registry)
-- [Tool Chaining](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/tool_chaining)
-- [Multimodal Processing](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/multimodal)
+- [Question Answering](https://github.com/darwishdev/dspy-go/tree/main/examples/hotpotqa)
+- [Math Problem Solving](https://github.com/darwishdev/dspy-go/tree/main/examples/gsm8k)
+- [Smart Tool Registry](https://github.com/darwishdev/dspy-go/tree/main/examples/smart_tool_registry)
+- [Tool Chaining](https://github.com/darwishdev/dspy-go/tree/main/examples/tool_chaining)
+- [Multimodal Processing](https://github.com/darwishdev/dspy-go/tree/main/examples/multimodal)
 
 ### Example Application
 See dspy-go in production:
@@ -228,8 +228,8 @@ While using empty string "" for zero-config is the easiest way to get started, y
 
 ```go
 import (
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
 )
 
 // Anthropic Claude
@@ -283,6 +283,6 @@ predictor.SetLLM(llm)
 
 ### Getting Help
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/XiaoConstantine/dspy-go/issues)
-- **Discussions**: [Ask questions and share ideas](https://github.com/XiaoConstantine/dspy-go/discussions)
-- **Examples**: [Browse working examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/darwishdev/dspy-go/issues)
+- **Discussions**: [Ask questions and share ideas](https://github.com/darwishdev/dspy-go/discussions)
+- **Examples**: [Browse working examples](https://github.com/darwishdev/dspy-go/tree/main/examples)

@@ -175,4 +175,4 @@ parallelRefine := modules.NewParallel(refine)
 **Issue**: Results in wrong order
 - **Solution**: Results maintain input order automatically - check input preparation
 
-For more examples and documentation, see the [main DSPy-Go repository](https://github.com/XiaoConstantine/dspy-go).
+For more examples and documentation, see the [main DSPy-Go repository](https://github.com/darwishdev/dspy-go).

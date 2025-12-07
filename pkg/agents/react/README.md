@@ -128,8 +128,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents/react"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/agents/react"
+    "github.com/darwishdev/dspy-go/pkg/core"
 )
 
 func main() {

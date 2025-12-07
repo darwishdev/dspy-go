@@ -7,10 +7,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents/react"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms"
-	"github.com/XiaoConstantine/dspy-go/pkg/tools"
+	"github.com/darwishdev/dspy-go/pkg/agents/react"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/llms"
+	"github.com/darwishdev/dspy-go/pkg/tools"
 
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 )

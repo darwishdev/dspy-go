@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/optimizers"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/optimizers"
 )
 
 const (

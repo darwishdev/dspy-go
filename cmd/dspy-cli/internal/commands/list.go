@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/display"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/display"
 )
 
 func NewListCommand() *cobra.Command {

@@ -1,9 +1,9 @@
-module github.com/XiaoConstantine/dspy-go/cmd/dspy-cli
+module github.com/darwishdev/dspy-go/cmd/dspy-cli
 
 go 1.25
 
 require (
-	github.com/XiaoConstantine/dspy-go v0.0.0
+	github.com/darwishdev/dspy-go v0.0.0
 	github.com/spf13/cobra v1.9.1
 )
 
@@ -50,4 +50,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/XiaoConstantine/dspy-go => ../../
+replace github.com/darwishdev/dspy-go => ../../

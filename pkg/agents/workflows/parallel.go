@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/agents"
 )
 
 // ParallelWorkflow executes multiple steps concurrently.

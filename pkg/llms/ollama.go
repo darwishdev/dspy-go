@@ -10,10 +10,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
-	"github.com/XiaoConstantine/dspy-go/pkg/llms/openai"
-	"github.com/XiaoConstantine/dspy-go/pkg/utils"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/llms/openai"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
 // OllamaConfig holds configuration for Ollama provider.

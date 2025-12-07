@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 )
 
 // ContextDiversifier implements Manus's context diversity patterns to prevent few-shot traps.

@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/bubbletea"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/models"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/models"
 )
 
 // Screen names for navigation

@@ -28,7 +28,7 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/tools"
+    "github.com/darwishdev/dspy-go/pkg/tools"
 )
 
 func main() {
@@ -63,8 +63,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/dspy"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/dspy"
+    "github.com/darwishdev/dspy-go/pkg/core"
 )
 
 func main() {
@@ -154,7 +154,7 @@ func (m *IntelligentModule) Forward(ctx context.Context, inputs map[string]inter
 ### 2. In Workflow Builders
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/agents/workflows"
+import "github.com/darwishdev/dspy-go/pkg/agents/workflows"
 
 // Create workflow with intelligent tool selection
 builder := workflows.NewWorkflowBuilder()

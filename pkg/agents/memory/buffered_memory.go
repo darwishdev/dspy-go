@@ -6,8 +6,8 @@ import (
 	goerrors "errors"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
-	"github.com/XiaoConstantine/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
 // defaultHistoryKey is the default key used to store history in the underlying store.

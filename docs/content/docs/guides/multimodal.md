@@ -52,9 +52,9 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -112,8 +112,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -180,8 +180,8 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/agents/memory"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/agents/memory"
 )
 
 type MultimodalChat struct {
@@ -277,8 +277,8 @@ package main
 import (
     "context"
     "fmt"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -332,8 +332,8 @@ package main
 
 import (
     "context"
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -388,7 +388,7 @@ func main() {
 package main
 
 import (
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/core"
 )
 
 func main() {
@@ -515,7 +515,7 @@ imageData := resizeImage(originalData, 1024, 1024)
 ## Examples
 
 ### Complete Multimodal Examples
-- **[Multimodal Processing](https://github.com/XiaoConstantine/dspy-go/tree/main/examples/multimodal)** - All multimodal capabilities
+- **[Multimodal Processing](https://github.com/darwishdev/dspy-go/tree/main/examples/multimodal)** - All multimodal capabilities
   - Basic image analysis
   - Vision Q&A
   - Multimodal chat
@@ -538,4 +538,4 @@ cd examples/multimodal && go run main.go
 
 - **[Core Concepts →](core-concepts/)** - Understand signatures and modules
 - **[Agents →](agents/)** - Build agents with vision capabilities
-- **[Examples →](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - More multimodal examples
+- **[Examples →](https://github.com/darwishdev/dspy-go/tree/main/examples)** - More multimodal examples

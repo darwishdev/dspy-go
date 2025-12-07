@@ -98,7 +98,7 @@ Interceptors in dspy-go follow the gRPC interceptor pattern, providing a clean a
 ### Basic Interceptor Application
 
 ```go
-import "github.com/XiaoConstantine/dspy-go/pkg/interceptors"
+import "github.com/darwishdev/dspy-go/pkg/interceptors"
 
 // Apply single interceptor
 module.SetInterceptors([]core.ModuleInterceptor{

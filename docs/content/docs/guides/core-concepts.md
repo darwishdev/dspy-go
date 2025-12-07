@@ -374,9 +374,9 @@ import (
     "fmt"
     "log"
 
-    "github.com/XiaoConstantine/dspy-go/pkg/core"
-    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+    "github.com/darwishdev/dspy-go/pkg/core"
+    "github.com/darwishdev/dspy-go/pkg/llms"
+    "github.com/darwishdev/dspy-go/pkg/modules"
 )
 
 func main() {
@@ -480,7 +480,7 @@ Now that you understand the core concepts, explore:
 
 - **[Optimizers →](optimizers/)** - Automatically improve your signatures and programs
 - **[Tool Management →](tools/)** - Extend ReAct with smart tool selection
-- **[Examples](https://github.com/XiaoConstantine/dspy-go/tree/main/examples)** - See these concepts in real applications
+- **[Examples](https://github.com/darwishdev/dspy-go/tree/main/examples)** - See these concepts in real applications
 
 ### Deep Dives
 

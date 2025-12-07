@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	testutil "github.com/XiaoConstantine/dspy-go/internal/testutil"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/interceptors"
+	testutil "github.com/darwishdev/dspy-go/internal/testutil"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/interceptors"
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 
 	"github.com/stretchr/testify/assert"

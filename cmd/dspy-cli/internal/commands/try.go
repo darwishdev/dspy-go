@@ -5,10 +5,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/display"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/optimizers"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/runner"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/samples"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/display"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/optimizers"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/runner"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/samples"
 )
 
 func NewTryCommand() *cobra.Command {

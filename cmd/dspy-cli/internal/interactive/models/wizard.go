@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/styles"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/styles"
 )
 
 // WizardModel represents the AI-powered recommendation wizard

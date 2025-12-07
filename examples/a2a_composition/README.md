@@ -353,7 +353,7 @@ func (r *ResearchOrchestrator) DeepResearch(ctx context.Context, topic string, m
 
 ```go
 // Integrate WebSearch tool
-import "github.com/XiaoConstantine/dspy-go/pkg/tools"
+import "github.com/darwishdev/dspy-go/pkg/tools"
 
 func (s *SearchAgent) GetCapabilities() []core.Tool {
     return []core.Tool{

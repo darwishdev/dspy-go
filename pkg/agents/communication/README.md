@@ -30,7 +30,7 @@ pkg/agents/communication/
 Compose agents hierarchically, similar to ADK Python's `sub_agents`:
 
 ```go
-import a2a "github.com/XiaoConstantine/dspy-go/pkg/agents/communication"
+import a2a "github.com/darwishdev/dspy-go/pkg/agents/communication"
 
 // Create sub-agents
 searchAgent := // ... your search agent

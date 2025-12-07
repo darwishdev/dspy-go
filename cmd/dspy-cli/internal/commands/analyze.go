@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/display"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/structured"
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/display"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/structured"
+	"github.com/darwishdev/dspy-go/pkg/core"
 	"github.com/spf13/cobra"
 )
 

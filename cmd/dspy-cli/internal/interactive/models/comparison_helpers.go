@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/XiaoConstantine/dspy-go/cmd/dspy-cli/internal/interactive/styles"
+	"github.com/darwishdev/dspy-go/cmd/dspy-cli/internal/interactive/styles"
 )
 
 // Helper methods for the comparison model

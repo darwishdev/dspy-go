@@ -71,10 +71,10 @@
 //	    "fmt"
 //	    "log"
 //
-//	    "github.com/XiaoConstantine/dspy-go/pkg/core"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/modules"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/config"
+//	    "github.com/darwishdev/dspy-go/pkg/core"
+//	    "github.com/darwishdev/dspy-go/pkg/llms"
+//	    "github.com/darwishdev/dspy-go/pkg/modules"
+//	    "github.com/darwishdev/dspy-go/pkg/config"
 //	)
 //
 //	func main() {
@@ -121,9 +121,9 @@
 //	    "log"
 //	    "time"
 //
-//	    "github.com/XiaoConstantine/dspy-go/pkg/core"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+//	    "github.com/darwishdev/dspy-go/pkg/core"
+//	    "github.com/darwishdev/dspy-go/pkg/llms"
+//	    "github.com/darwishdev/dspy-go/pkg/modules"
 //	)
 //
 //	func main() {
@@ -180,9 +180,9 @@
 //	    "log"
 //	    "os"
 //
-//	    "github.com/XiaoConstantine/dspy-go/pkg/core"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/modules"
+//	    "github.com/darwishdev/dspy-go/pkg/core"
+//	    "github.com/darwishdev/dspy-go/pkg/llms"
+//	    "github.com/darwishdev/dspy-go/pkg/modules"
 //	)
 //
 //	func main() {
@@ -233,10 +233,10 @@
 //	    "fmt"
 //	    "log"
 //
-//	    "github.com/XiaoConstantine/dspy-go/pkg/core"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/llms"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/modules"
-//	    "github.com/XiaoConstantine/dspy-go/pkg/optimizers"
+//	    "github.com/darwishdev/dspy-go/pkg/core"
+//	    "github.com/darwishdev/dspy-go/pkg/llms"
+//	    "github.com/darwishdev/dspy-go/pkg/modules"
+//	    "github.com/darwishdev/dspy-go/pkg/optimizers"
 //	)
 //
 //	func main() {
@@ -352,7 +352,7 @@
 //
 // Working with Smart Tool Registry:
 //
-//	import "github.com/XiaoConstantine/dspy-go/pkg/tools"
+//	import "github.com/darwishdev/dspy-go/pkg/tools"
 //
 //	// Create intelligent tool registry
 //	config := &tools.SmartToolRegistryConfig{
@@ -469,7 +469,7 @@
 //	})
 //
 // For more examples and detailed documentation, visit:
-// https://github.com/XiaoConstantine/dspy-go
+// https://github.com/darwishdev/dspy-go
 //
 // DSPy-Go is released under the MIT License.
 package dspy

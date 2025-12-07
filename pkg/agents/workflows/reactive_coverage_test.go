@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/agents"
+	"github.com/darwishdev/dspy-go/pkg/agents"
 )
 
 // Test Unsubscribe functionality.

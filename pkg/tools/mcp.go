@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/logging"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/logging"
 	"github.com/XiaoConstantine/mcp-go/pkg/client"
 	models "github.com/XiaoConstantine/mcp-go/pkg/model"
 )

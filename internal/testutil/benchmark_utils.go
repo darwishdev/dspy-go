@@ -6,8 +6,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/XiaoConstantine/dspy-go/pkg/core"
-	"github.com/XiaoConstantine/dspy-go/pkg/datasets"
+	"github.com/darwishdev/dspy-go/pkg/core"
+	"github.com/darwishdev/dspy-go/pkg/datasets"
 )
 
 // ConcurrencyTestMu protects concurrent access to global concurrency settings
