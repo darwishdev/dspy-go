@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/darwishdev/dspy-go/pkg/core"
@@ -72,14 +73,9 @@ type geminiFileData struct {
 }
 
 type geminiGenerationConfig struct {
-	Temperature          float64           `json:"temperature,omitempty"`
-	MaxOutputTokens      int               `json:"maxOutputTokens,omitempty"`
-	TopP                 float64           `json:"topP,omitempty"`
-	Parameters           *utils.TypeSchema `json:"parameters,omitempty"`
-	ResponseSchema       *utils.TypeSchema `json:"responseSchema,omitempty"`
-	ParametersJsonSchema interface{}       `json:"parametersJsonSchema,omitempty"`
-	ResponseJSON         interface{}       `json:"responseJsonSchema,omitempty"`
-	ResponseMIMEType     string            `json:"ResponseMIMEType,omitempty"`
+	Temperature     float64 `json:"temperature,omitempty"`
+	MaxOutputTokens int     `json:"maxOutputTokens,omitempty"`
+	TopP            float64 `json:"topP,omitempty"`
 }
 
 // GeminiResponse represents the response structure from Gemini API.
@@ -331,18 +327,6 @@ func supportsGeminiFunctionCalling(modelID core.ModelID) bool {
 	// Most Gemini models support function calling
 	return true
 }
-func geminiConfigFromCoreConfig(opts *core.GenerateOptions) geminiGenerationConfig {
-	return geminiGenerationConfig{
-		Temperature:          opts.Temperature,
-		MaxOutputTokens:      opts.MaxTokens,
-		TopP:                 opts.TopP,
-		ResponseSchema:       opts.ResponseSchema,
-		Parameters:           opts.Parameters,
-		ParametersJsonSchema: opts.ParametersJSONSchema,
-		ResponseJSON:         opts.ResponseJSONSchema,
-		ResponseMIMEType:     opts.ResponseMIMEType,
-	}
-}
 
 // Generate implements the core.LLM interface.
 func (g *GeminiLLM) Generate(ctx context.Context, prompt string, options ...core.GenerateOption) (*core.LLMResponse, error) {
@@ -359,18 +343,106 @@ func (g *GeminiLLM) Generate(ctx context.Context, prompt string, options ...core
 				},
 			},
 		},
-		GenerationConfig: geminiConfigFromCoreConfig(opts),
+		GenerationConfig: geminiGenerationConfig{
+			Temperature:     opts.Temperature,
+			MaxOutputTokens: opts.MaxTokens,
+			TopP:            opts.TopP,
+		},
 	}
 
-	resp, err := handleGeminiGenerateRequest(ctx, g.GetHTTPClient(), reqBody, g.GetEndpointConfig(), prompt, g.ModelID(), g.apiKey)
+	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
 		return nil, errors.WithFields(
-			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: failed to send gemin generate request: %v", err)),
+			errors.Wrap(err, errors.InvalidInput, "failed to marshal request body"),
+			errors.Fields{
+				"prompt": prompt,
+				"model":  g.ModelID(),
+			})
+	}
+
+	req, err := http.NewRequestWithContext(
+		ctx,
+		"POST",
+		constructRequestURL(g.GetEndpointConfig(), g.apiKey),
+		bytes.NewBuffer(jsonData),
+	)
+
+	if err != nil {
+		return nil, errors.WithFields(
+			errors.Wrap(err, errors.InvalidInput, "failed to create request"),
 			errors.Fields{
 				"model": g.ModelID(),
 			})
 	}
-	return handleGeminiResponseParsing(resp, g.ModelID())
+	// TODO: make basellm make request to dry this up
+	for key, value := range g.GetEndpointConfig().Headers {
+		req.Header.Set(key, value)
+	}
+
+	resp, err := g.GetHTTPClient().Do(req)
+	if err != nil {
+		return nil, errors.WithFields(
+			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: failed to send request: %v", err)),
+			errors.Fields{
+				"model": g.ModelID(),
+			})
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, errors.WithFields(
+			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: failed to read response body: %v", err)),
+			errors.Fields{
+				"model": g.ModelID(),
+			})
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.WithFields(
+			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: API request failed with status code %d: %s", resp.StatusCode, string(body))),
+			errors.Fields{
+				"model":      g.ModelID(),
+				"statusCode": resp.StatusCode,
+			})
+	}
+
+	var geminiResp geminiResponse
+	if err := json.Unmarshal(body, &geminiResp); err != nil {
+		return nil, errors.WithFields(
+			errors.New(errors.InvalidResponse, fmt.Sprintf("InvalidResponse: failed to unmarshal response: %v", err)),
+			errors.Fields{
+				"model": g.ModelID(),
+			})
+	}
+
+	if len(geminiResp.Candidates) == 0 {
+		return nil, errors.WithFields(
+			errors.New(errors.InvalidResponse, "InvalidResponse: no candidates in response"),
+			errors.Fields{
+				"model": g.ModelID(),
+			})
+	}
+
+	if len(geminiResp.Candidates[0].Content.Parts) == 0 {
+		return nil, errors.WithFields(
+			errors.New(errors.InvalidResponse, "InvalidResponse: no parts in response candidate"),
+			errors.Fields{
+				"model": g.ModelID(),
+			})
+	}
+
+	content := geminiResp.Candidates[0].Content.Parts[0].Text
+	usage := &core.TokenInfo{
+		PromptTokens:     geminiResp.UsageMetadata.PromptTokenCount,
+		CompletionTokens: geminiResp.UsageMetadata.CandidatesTokenCount,
+		TotalTokens:      geminiResp.UsageMetadata.TotalTokenCount,
+	}
+
+	return &core.LLMResponse{
+		Content: content,
+		Usage:   usage,
+	}, nil
 }
 
 // GenerateWithJSON implements the core.LLM interface.
@@ -439,7 +511,11 @@ func (g *GeminiLLM) GenerateWithFunctions(ctx context.Context, prompt string, fu
 				FunctionDeclarations: functionDeclarations,
 			},
 		},
-		GenerationConfig: geminiConfigFromCoreConfig(opts),
+		GenerationConfig: geminiGenerationConfig{
+			Temperature:     opts.Temperature,
+			MaxOutputTokens: opts.MaxTokens,
+			TopP:            opts.TopP,
+		},
 	}
 	requestJSON, _ := json.MarshalIndent(reqBody, "", "  ")
 	logger.Debug(ctx, "Function call request JSON: %s", string(requestJSON))
@@ -893,11 +969,42 @@ func (g *GeminiLLM) CreateEmbeddings(ctx context.Context, inputs []string, optio
 
 // streamRequest handles the common streaming logic for both StreamGenerate and StreamGenerateWithContent.
 func (g *GeminiLLM) streamRequest(ctx context.Context, reqBody interface{}) (*core.StreamResponse, error) {
-	// Create a channel for streaming chunks
+	jsonData, err := json.Marshal(reqBody)
+	if err != nil {
+		return nil, errors.WithFields(
+			errors.New(errors.InvalidInput, fmt.Sprintf("failed to marshal request body: %v", err)),
+			errors.Fields{"model": g.ModelID()})
+	}
+
+	// Add streaming parameter
+	streamURL := constructRequestURL(g.GetEndpointConfig(), g.apiKey) + "&alt=sse"
+
+	req, err := http.NewRequestWithContext(ctx, "POST", streamURL, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, errors.WithFields(
+			errors.New(errors.InvalidInput, fmt.Sprintf("failed to create request: %v", err)),
+			errors.Fields{"model": g.ModelID()})
+	}
+
+	for key, value := range g.GetEndpointConfig().Headers {
+		req.Header.Set(key, value)
+	}
+	req.Header.Set("Accept", "text/event-stream")
+
+	// Create channels and response
 	chunkChan := make(chan core.StreamChunk)
 	streamCtx, cancelStream := context.WithCancel(ctx)
 
-	// Create the streaming response
+	// Used to protect against multiple closes
+	var channelClosed sync.Once
+
+	// Create a safe way to close the channel
+	safeCloseChannel := func() {
+		channelClosed.Do(func() {
+			close(chunkChan)
+		})
+	}
+
 	response := &core.StreamResponse{
 		ChunkChannel: chunkChan,
 		Cancel: func() {
@@ -905,14 +1012,101 @@ func (g *GeminiLLM) streamRequest(ctx context.Context, reqBody interface{}) (*co
 		},
 	}
 
-	// Call the base function to handle the stream request
-	resp, err := handleGeminiStreamRequest(ctx, g.GetHTTPClient(), reqBody, g.GetEndpointConfig(), g.apiKey)
-	if err != nil {
-		return nil, err
-	}
+	// Start streaming goroutine
+	go func() {
+		defer safeCloseChannel()
 
-	// Handle the response using the base function
-	go handleGeminiStreamResponse(resp, chunkChan, streamCtx)
+		client := g.GetHTTPClient()
+		resp, err := client.Do(req)
+		if err != nil {
+			if streamCtx.Err() != nil {
+				return
+			}
+			chunkChan <- core.StreamChunk{
+				Error: errors.New(errors.LLMGenerationFailed, fmt.Sprintf("request failed: %v", err)),
+			}
+			return
+		}
+		defer resp.Body.Close()
+
+		reader := bufio.NewReader(resp.Body)
+
+		for {
+			select {
+			case <-streamCtx.Done():
+				return
+			default:
+			}
+
+			readCtx, cancel := context.WithTimeout(streamCtx, 500*time.Millisecond)
+
+			ch := make(chan struct {
+				line string
+				err  error
+			}, 1)
+
+			go func() {
+				line, err := reader.ReadString('\n')
+				ch <- struct {
+					line string
+					err  error
+				}{line, err}
+			}()
+
+			var line string
+			var readErr error
+
+			select {
+			case result := <-ch:
+				line = result.line
+				readErr = result.err
+				cancel()
+			case <-readCtx.Done():
+				cancel()
+				if streamCtx.Err() != nil {
+					return
+				}
+				continue
+			}
+
+			if readErr != nil {
+				if readErr == io.EOF || streamCtx.Err() != nil {
+					return
+				}
+				if streamCtx.Err() == nil {
+					chunkChan <- core.StreamChunk{
+						Error: errors.New(errors.LLMGenerationFailed, fmt.Sprintf("stream read error: %v", readErr)),
+					}
+				}
+				return
+			}
+
+			if streamCtx.Err() != nil {
+				return
+			}
+
+			line = strings.TrimSpace(line)
+			if strings.HasPrefix(line, "data: ") {
+				data := strings.TrimPrefix(line, "data: ")
+
+				if data == "[DONE]" {
+					return
+				}
+
+				var chunk geminiResponse
+				if err := json.Unmarshal([]byte(data), &chunk); err != nil {
+					continue
+				}
+
+				if len(chunk.Candidates) > 0 && len(chunk.Candidates[0].Content.Parts) > 0 {
+					content := chunk.Candidates[0].Content.Parts[0].Text
+					if streamCtx.Err() == nil {
+						chunkChan <- core.StreamChunk{Content: content}
+					}
+				}
+			}
+		}
+	}()
 
 	return response, nil
 }
@@ -932,7 +1126,11 @@ func (g *GeminiLLM) StreamGenerate(ctx context.Context, prompt string, options .
 				},
 			},
 		},
-		GenerationConfig: geminiConfigFromCoreConfig(opts),
+		GenerationConfig: geminiGenerationConfig{
+			Temperature:     opts.Temperature,
+			MaxOutputTokens: opts.MaxTokens,
+			TopP:            opts.TopP,
+		},
 	}
 
 	return g.streamRequest(ctx, reqBody)
@@ -979,7 +1177,7 @@ func (g *GeminiLLM) GenerateWithContent(ctx context.Context, content []core.Cont
 	}
 
 	// Convert ContentBlocks to Gemini's format
-	geminiParts := convertToGeminiParts(content)
+	geminiParts := g.convertToGeminiParts(content)
 
 	reqBody := geminiRequest{
 		Contents: []geminiContent{
@@ -987,7 +1185,11 @@ func (g *GeminiLLM) GenerateWithContent(ctx context.Context, content []core.Cont
 				Parts: geminiParts,
 			},
 		},
-		GenerationConfig: geminiConfigFromCoreConfig(opts),
+		GenerationConfig: geminiGenerationConfig{
+			Temperature:     opts.Temperature,
+			MaxOutputTokens: opts.MaxTokens,
+			TopP:            opts.TopP,
+		},
 	}
 
 	jsonData, err := json.Marshal(reqBody)
@@ -1093,7 +1295,7 @@ func (g *GeminiLLM) StreamGenerateWithContent(ctx context.Context, content []cor
 	}
 
 	// Convert ContentBlocks to Gemini's format
-	geminiParts := convertToGeminiParts(content)
+	geminiParts := g.convertToGeminiParts(content)
 
 	reqBody := geminiRequest{
 		Contents: []geminiContent{
@@ -1101,14 +1303,18 @@ func (g *GeminiLLM) StreamGenerateWithContent(ctx context.Context, content []cor
 				Parts: geminiParts,
 			},
 		},
-		GenerationConfig: geminiConfigFromCoreConfig(opts),
+		GenerationConfig: geminiGenerationConfig{
+			Temperature:     opts.Temperature,
+			MaxOutputTokens: opts.MaxTokens,
+			TopP:            opts.TopP,
+		},
 	}
 
 	return g.streamRequest(ctx, reqBody)
 }
 
 // convertToGeminiParts converts ContentBlocks to Gemini's format.
-func convertToGeminiParts(blocks []core.ContentBlock) []geminiPart {
+func (g *GeminiLLM) convertToGeminiParts(blocks []core.ContentBlock) []geminiPart {
 	var parts []geminiPart
 
 	for _, block := range blocks {
@@ -1140,220 +1346,4 @@ func convertToGeminiParts(blocks []core.ContentBlock) []geminiPart {
 	}
 
 	return parts
-}
-func handleGeminiGenerateRequest(ctx context.Context, httpClient *http.Client, reqBody interface{}, endpointConfig *core.EndpointConfig, prompt string, model string, apiKey string) (*http.Response, error) {
-	jsonData, err := json.Marshal(reqBody)
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.Wrap(err, errors.InvalidInput, "failed to marshal request body"),
-			errors.Fields{
-				"prompt": prompt,
-				"model":  model,
-			})
-	}
-
-	req, err := http.NewRequestWithContext(
-		ctx,
-		"POST",
-		constructRequestURL(endpointConfig, apiKey),
-		bytes.NewBuffer(jsonData),
-	)
-
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.Wrap(err, errors.InvalidInput, "failed to create request"),
-			errors.Fields{
-				"model": model,
-			})
-	}
-	// TODO: make basellm make request to dry this up
-	for key, value := range endpointConfig.Headers {
-		req.Header.Set(key, value)
-	}
-
-	resp, err := httpClient.Do(req)
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: failed to send request: %v", err)),
-			errors.Fields{
-				"model": model,
-			})
-	}
-	defer resp.Body.Close()
-	return resp, err
-}
-func handleGeminiResponseParsing(resp *http.Response, model string) (*core.LLMResponse, error) {
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: failed to read response body: %v", err)),
-			errors.Fields{
-				"model": model,
-			})
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, errors.WithFields(
-			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("LLMGenerationFailed: API request failed with status code %d: %s", resp.StatusCode, string(body))),
-			errors.Fields{
-				"model":      model,
-				"statusCode": resp.StatusCode,
-			})
-	}
-
-	var geminiResp geminiResponse
-	if err := json.Unmarshal(body, &geminiResp); err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.InvalidResponse, fmt.Sprintf("InvalidResponse: failed to unmarshal response: %v", err)),
-			errors.Fields{
-				"model": model,
-			})
-	}
-
-	if len(geminiResp.Candidates) == 0 {
-		return nil, errors.WithFields(
-			errors.New(errors.InvalidResponse, "InvalidResponse: no candidates in response"),
-			errors.Fields{
-				"model": model,
-			})
-	}
-
-	if len(geminiResp.Candidates[0].Content.Parts) == 0 {
-		return nil, errors.WithFields(
-			errors.New(errors.InvalidResponse, "InvalidResponse: no parts in response candidate"),
-			errors.Fields{
-				"model": model,
-			})
-	}
-
-	content := geminiResp.Candidates[0].Content.Parts[0].Text
-	usage := &core.TokenInfo{
-		PromptTokens:     geminiResp.UsageMetadata.PromptTokenCount,
-		CompletionTokens: geminiResp.UsageMetadata.CandidatesTokenCount,
-		TotalTokens:      geminiResp.UsageMetadata.TotalTokenCount,
-	}
-
-	return &core.LLMResponse{
-		Content: content,
-		Usage:   usage,
-	}, nil
-
-}
-
-func handleGeminiStreamRequest(ctx context.Context, httpClient *http.Client, reqBody interface{}, endpointConfig *core.EndpointConfig, apiKey string) (*http.Response, error) {
-	// Marshal the request body
-	jsonData, err := json.Marshal(reqBody)
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.InvalidInput, fmt.Sprintf("failed to marshal request body: %v", err)),
-			errors.Fields{"model": "Gemini"})
-	}
-
-	// Add streaming parameter
-	streamURL := constructRequestURL(endpointConfig, apiKey) + "&alt=sse"
-
-	req, err := http.NewRequestWithContext(ctx, "POST", streamURL, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.InvalidInput, fmt.Sprintf("failed to create request: %v", err)),
-			errors.Fields{"model": "Gemini"})
-	}
-
-	// Set headers
-	for key, value := range endpointConfig.Headers {
-		req.Header.Set(key, value)
-	}
-	req.Header.Set("Accept", "text/event-stream")
-
-	// Send the request
-	resp, err := httpClient.Do(req)
-	if err != nil {
-		return nil, errors.WithFields(
-			errors.New(errors.LLMGenerationFailed, fmt.Sprintf("request failed: %v", err)),
-			errors.Fields{"model": "Gemini"})
-	}
-
-	return resp, nil
-}
-
-func handleGeminiStreamResponse(resp *http.Response, chunkChan chan core.StreamChunk, streamCtx context.Context) {
-	reader := bufio.NewReader(resp.Body)
-
-	for {
-		select {
-		case <-streamCtx.Done():
-			return
-		default:
-		}
-
-		readCtx, cancel := context.WithTimeout(streamCtx, 500*time.Millisecond)
-
-		ch := make(chan struct {
-			line string
-			err  error
-		}, 1)
-
-		// Read the next line
-		go func() {
-			line, err := reader.ReadString('\n')
-			ch <- struct {
-				line string
-				err  error
-			}{line, err}
-		}()
-
-		var line string
-		var readErr error
-
-		select {
-		case result := <-ch:
-			line = result.line
-			readErr = result.err
-			cancel()
-		case <-readCtx.Done():
-			cancel()
-			if streamCtx.Err() != nil {
-				return
-			}
-			continue
-		}
-
-		if readErr != nil {
-			if readErr == io.EOF || streamCtx.Err() != nil {
-				return
-			}
-			if streamCtx.Err() == nil {
-				chunkChan <- core.StreamChunk{
-					Error: errors.New(errors.LLMGenerationFailed, fmt.Sprintf("stream read error: %v", readErr)),
-				}
-			}
-			return
-		}
-
-		if streamCtx.Err() != nil {
-			return
-		}
-
-		line = strings.TrimSpace(line)
-		if strings.HasPrefix(line, "data: ") {
-			data := strings.TrimPrefix(line, "data: ")
-
-			if data == "[DONE]" {
-				return
-			}
-
-			// Process the response
-			var chunk geminiResponse
-			if err := json.Unmarshal([]byte(data), &chunk); err != nil {
-				continue
-			}
-
-			if len(chunk.Candidates) > 0 && len(chunk.Candidates[0].Content.Parts) > 0 {
-				content := chunk.Candidates[0].Content.Parts[0].Text
-				if streamCtx.Err() == nil {
-					chunkChan <- core.StreamChunk{Content: content}
-				}
-			}
-		}
-	}
 }
