@@ -20,6 +20,17 @@ import (
 	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
+func geminiConfigFromCoreConfig(opts *core.GenerateOptions) geminiGenerationConfig {
+	return geminiGenerationConfig{
+		Temperature:        opts.Temperature,
+		MaxOutputTokens:    opts.MaxTokens,
+		TopP:               opts.TopP,
+		ResponseSchema:     opts.ResponseSchema,
+		ResponseJsonSchema: opts.ResponseJSONSchema,
+		ResponseMIMEType:   opts.ResponseMIMEType,
+	}
+}
+
 // GeminiLLM implements the core.LLM interface for Google's Gemini model.
 type GeminiLLM struct {
 	*core.BaseLLM
@@ -76,6 +87,10 @@ type geminiGenerationConfig struct {
 	Temperature     float64 `json:"temperature,omitempty"`
 	MaxOutputTokens int     `json:"maxOutputTokens,omitempty"`
 	TopP            float64 `json:"topP,omitempty"`
+
+	ResponseJsonSchema any               `json:"responseJsonSchema,omitempty"`
+	ResponseMIMEType   string            `json:"responseMimeType,omitempty"`
+	ResponseSchema     *utils.TypeSchema `json:"responseSchema,omitempty"`
 }
 
 // GeminiResponse represents the response structure from Gemini API.
@@ -343,11 +358,7 @@ func (g *GeminiLLM) Generate(ctx context.Context, prompt string, options ...core
 				},
 			},
 		},
-		GenerationConfig: geminiGenerationConfig{
-			Temperature:     opts.Temperature,
-			MaxOutputTokens: opts.MaxTokens,
-			TopP:            opts.TopP,
-		},
+		GenerationConfig: geminiConfigFromCoreConfig(opts),
 	}
 
 	jsonData, err := json.Marshal(reqBody)
@@ -511,11 +522,7 @@ func (g *GeminiLLM) GenerateWithFunctions(ctx context.Context, prompt string, fu
 				FunctionDeclarations: functionDeclarations,
 			},
 		},
-		GenerationConfig: geminiGenerationConfig{
-			Temperature:     opts.Temperature,
-			MaxOutputTokens: opts.MaxTokens,
-			TopP:            opts.TopP,
-		},
+		GenerationConfig: geminiConfigFromCoreConfig(opts),
 	}
 	requestJSON, _ := json.MarshalIndent(reqBody, "", "  ")
 	logger.Debug(ctx, "Function call request JSON: %s", string(requestJSON))
@@ -1126,11 +1133,7 @@ func (g *GeminiLLM) StreamGenerate(ctx context.Context, prompt string, options .
 				},
 			},
 		},
-		GenerationConfig: geminiGenerationConfig{
-			Temperature:     opts.Temperature,
-			MaxOutputTokens: opts.MaxTokens,
-			TopP:            opts.TopP,
-		},
+		GenerationConfig: geminiConfigFromCoreConfig(opts),
 	}
 
 	return g.streamRequest(ctx, reqBody)
@@ -1185,11 +1188,7 @@ func (g *GeminiLLM) GenerateWithContent(ctx context.Context, content []core.Cont
 				Parts: geminiParts,
 			},
 		},
-		GenerationConfig: geminiGenerationConfig{
-			Temperature:     opts.Temperature,
-			MaxOutputTokens: opts.MaxTokens,
-			TopP:            opts.TopP,
-		},
+		GenerationConfig: geminiConfigFromCoreConfig(opts),
 	}
 
 	jsonData, err := json.Marshal(reqBody)
@@ -1303,11 +1302,7 @@ func (g *GeminiLLM) StreamGenerateWithContent(ctx context.Context, content []cor
 				Parts: geminiParts,
 			},
 		},
-		GenerationConfig: geminiGenerationConfig{
-			Temperature:     opts.Temperature,
-			MaxOutputTokens: opts.MaxTokens,
-			TopP:            opts.TopP,
-		},
+		GenerationConfig: geminiConfigFromCoreConfig(opts),
 	}
 
 	return g.streamRequest(ctx, reqBody)
