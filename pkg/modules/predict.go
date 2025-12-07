@@ -247,6 +247,7 @@ func (p *Predict) Process(ctx context.Context, inputs map[string]interface{}, op
 	prompt := formatPrompt(signature, p.Demos, inputs)
 	logger.Debug(ctx, "Generated prompt with prompt: %v", prompt)
 	logger.Debug(ctx, "Generation Options: %v", finalOptions.GenerateOptions)
+	logger.Debug(ctx, "Generation Options:")
 
 	resp, err := p.LLM.Generate(ctx, prompt, finalOptions.GenerateOptions...)
 	if err != nil {
@@ -1047,6 +1048,14 @@ func ProcessTypedWithValidation[TInput, TOutput any](ctx context.Context, predic
 			})
 	}
 
+	inputSchema := utils.BuildSchemaFromStruct[TInput](inputs)
+	outputSchema := utils.BuildSchemaFromStruct[TOutput](zero)
+	schemaOptions := core.WithGenerateOptions(
+		core.WithRequestSchema(inputSchema),
+		core.WithResponseSchema(outputSchema),
+		core.WithResponseMIMEType("application/json"),
+	)
+	opts = append(opts, schemaOptions)
 	// Process with type conversion
 	result, err := ProcessTyped[TInput, TOutput](ctx, predict, inputs, opts...)
 	if err != nil {
