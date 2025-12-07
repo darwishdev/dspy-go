@@ -23,8 +23,6 @@ type Predict struct {
 	// XML output configuration
 	xmlConfig     *interceptors.XMLConfig
 	enableXMLMode bool
-	typedSig      any // stored generically
-	forceJSON     bool
 }
 
 // Ensure Predict implements core.Module.
@@ -67,17 +65,7 @@ func (p *Predict) WithName(name string) *Predict {
 	p.DisplayName = name
 	return p
 }
-func (p *Predict) WithTypedSignature(sig any) *Predict {
-	p.typedSig = sig
-	return p
-}
 
-func (p *Predict) WithForcedJSONOutput() *Predict {
-	p.forceJSON = true
-	// remove all interceptors — JSON output needs clean request/response
-	p.SetInterceptors([]core.ModuleInterceptor{})
-	return p
-}
 func (p *Predict) WithDefaultOptions(opts ...core.Option) *Predict {
 	options := &core.ModuleOptions{}
 	for _, opt := range opts {
@@ -1083,19 +1071,13 @@ func NewTypedPredict[TInput, TOutput any]() *Predict {
 	typedSig := core.NewTypedSignatureCached[TInput, TOutput]()
 	legacySig := typedSig.ToLegacySignature()
 
-	p := NewPredict(legacySig)
-
-	// Force JSON everywhere
-	p.WithForcedJSONOutput()
-
-	// Attach typed signature for validation and mapping
-	p.WithTypedSignature(typedSig)
-
+	predict := NewPredict(legacySig).WithTextOutput() // Typed modules use prefix-based parsing
+	// Use clearer variable names for type display
 	var i TInput
 	var o TOutput
-	p.DisplayName = fmt.Sprintf("TypedPredict[%T,%T]", i, o)
+	predict.DisplayName = fmt.Sprintf("TypedPredict[%T,%T]", i, o)
 
-	return p
+	return predict
 }
 
 // shouldUseXMLByDefault determines if XML output should be enabled by default

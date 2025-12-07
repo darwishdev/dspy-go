@@ -373,3 +373,168 @@ func convertToBool(value any) (bool, bool) {
 	}
 	return false, false
 }
+func ConvertTypedOutputsToLegacy(output any) (map[string]any, error) {
+	if output == nil {
+		return nil, fmt.Errorf("ConvertTypedOutputsToLegacy: output is nil")
+	}
+
+	v := reflect.ValueOf(output)
+	t := reflect.TypeOf(output)
+
+	// If it's a pointer → dereference
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return nil, fmt.Errorf("ConvertTypedOutputsToLegacy: nil pointer")
+		}
+		v = v.Elem()
+		t = t.Elem()
+	}
+
+	if v.Kind() != reflect.Struct {
+		return nil, fmt.Errorf("ConvertTypedOutputsToLegacy: expected struct, got %s", v.Kind())
+	}
+
+	result := make(map[string]any)
+
+	for i := 0; i < t.NumField(); i++ {
+		sf := t.Field(i)
+
+		if !sf.IsExported() {
+			continue
+		}
+
+		name := sf.Tag.Get("dspy")
+		if name == "" {
+			name = strings.ToLower(sf.Name)
+		}
+
+		value := v.Field(i).Interface()
+		result[name] = value
+	}
+
+	return result, nil
+}
+
+// ConvertJSONToTyped converts JSON map → typed struct using reflection.
+func ConvertJSONToTyped(jsonMap map[string]any, targetType reflect.Type) (reflect.Value, error) {
+	if targetType.Kind() == reflect.Ptr {
+		elem := targetType.Elem()
+		v := reflect.New(elem)
+		out, err := ConvertJSONToTyped(jsonMap, elem)
+		if err != nil {
+			return reflect.Value{}, err
+		}
+		v.Elem().Set(out)
+		return v, nil
+	}
+
+	if targetType.Kind() != reflect.Struct {
+		return reflect.Value{}, fmt.Errorf("ConvertJSONToTyped: target must be struct, got %s", targetType.Kind())
+	}
+
+	outVal := reflect.New(targetType).Elem()
+
+	for i := 0; i < targetType.NumField(); i++ {
+		sf := targetType.Field(i)
+		if !sf.IsExported() {
+			continue
+		}
+
+		jsonKey := sf.Tag.Get("dspy")
+		if jsonKey == "" {
+			jsonKey = strings.ToLower(sf.Name)
+		}
+
+		raw, ok := jsonMap[jsonKey]
+		if !ok {
+			continue
+		}
+
+		fieldVal := outVal.Field(i)
+		fieldType := fieldVal.Type()
+
+		converted, err := convertValue(raw, fieldType)
+		if err != nil {
+			return reflect.Value{}, fmt.Errorf("field '%s': %w", sf.Name, err)
+		}
+
+		fieldVal.Set(converted)
+	}
+
+	return outVal, nil
+}
+
+func convertValue(raw any, targetType reflect.Type) (reflect.Value, error) {
+	switch targetType.Kind() {
+
+	case reflect.String:
+		s, ok := raw.(string)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected string")
+		}
+		return reflect.ValueOf(s), nil
+
+	case reflect.Int:
+		f, ok := raw.(float64)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected number for int")
+		}
+		return reflect.ValueOf(int(f)), nil
+
+	case reflect.Bool:
+		b, ok := raw.(bool)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected bool")
+		}
+		return reflect.ValueOf(b), nil
+
+	case reflect.Float64:
+		f, ok := raw.(float64)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected float")
+		}
+		return reflect.ValueOf(f), nil
+
+	case reflect.Slice:
+		arr, ok := raw.([]any)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected array")
+		}
+
+		elemType := targetType.Elem()
+		slice := reflect.MakeSlice(targetType, 0, len(arr))
+
+		for _, item := range arr {
+			c, err := convertValue(item, elemType)
+			if err != nil {
+				return reflect.Value{}, err
+			}
+			slice = reflect.Append(slice, c)
+		}
+		return slice, nil
+
+	case reflect.Struct:
+		m, ok := raw.(map[string]any)
+		if !ok {
+			return reflect.Value{}, fmt.Errorf("expected object")
+		}
+		return ConvertJSONToTyped(m, targetType)
+
+	case reflect.Ptr:
+		val, err := convertValue(raw, targetType.Elem())
+		if err != nil {
+			return reflect.Value{}, err
+		}
+		p := reflect.New(targetType.Elem())
+		p.Elem().Set(val)
+		return p, nil
+	}
+
+	// fallback: try JSON round-trip
+	b, _ := json.Marshal(raw)
+	v := reflect.New(targetType).Interface()
+	if err := json.Unmarshal(b, v); err != nil {
+		return reflect.Value{}, fmt.Errorf("fallback unmarshal failed: %w", err)
+	}
+	return reflect.ValueOf(v).Elem(), nil
+}

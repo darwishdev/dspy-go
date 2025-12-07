@@ -11,6 +11,38 @@ import (
 	"github.com/darwishdev/dspy-go/pkg/errors"
 )
 
+type TypeSchema struct {
+	AnyOf            []*TypeSchema          `json:"anyOf,omitempty"`
+	Default          interface{}            `json:"default,omitempty"`
+	Description      string                 `json:"description,omitempty"`
+	Enum             []string               `json:"enum,omitempty"`
+	Example          interface{}            `json:"example,omitempty"`
+	Format           string                 `json:"format,omitempty"`
+	Items            *TypeSchema            `json:"items,omitempty"`
+	MaxItems         *int64                 `json:"maxItems,omitempty"`
+	MaxLength        *int64                 `json:"maxLength,omitempty"`
+	MaxProperties    *int64                 `json:"maxProperties,omitempty"`
+	Maximum          *float64               `json:"maximum,omitempty"`
+	MinItems         *int64                 `json:"minItems,omitempty"`
+	MinLength        *int64                 `json:"minLength,omitempty"`
+	MinProperties    *int64                 `json:"minProperties,omitempty"`
+	Minimum          *float64               `json:"minimum,omitempty"`
+	Nullable         *bool                  `json:"nullable,omitempty"`
+	Pattern          string                 `json:"pattern,omitempty"`
+	Properties       map[string]*TypeSchema `json:"properties,omitempty"`
+	PropertyOrdering []string               `json:"propertyOrdering,omitempty"`
+	Required         []string               `json:"required,omitempty"`
+	Title            string                 `json:"title,omitempty"`
+	Type             string                 `json:"type,omitempty"`
+}
+
+type SchemaConfig struct {
+	RequestSchema      *TypeSchema
+	RequestJSONSchema  interface{}
+	ResponseSchema     *TypeSchema
+	ResponseJSONSchema interface{}
+	ResponseMIMEType   string
+}
 type TokenInfo struct {
 	PromptTokens     int
 	CompletionTokens int
@@ -138,6 +170,12 @@ type GenerateOptions struct {
 	PresencePenalty  float64
 	FrequencyPenalty float64
 	Stop             []string
+
+	Parameters           *TypeSchema
+	ParametersJSONSchema interface{}
+	ResponseSchema       *TypeSchema
+	ResponseJSONSchema   interface{}
+	ResponseMIMEType     string
 }
 
 type EmbeddingOptions struct {
@@ -177,6 +215,41 @@ func NewGenerateOptions() *GenerateOptions {
 	return &GenerateOptions{
 		MaxTokens:   8192, // Default max tokens
 		Temperature: 0.5,  // Default temperature
+	}
+}
+func WithRequestSchema(schema *TypeSchema) GenerateOption {
+	return func(o *GenerateOptions) {
+		o.Parameters = schema
+	}
+}
+
+// WithRequestJSONSchema sets raw JSON schema for input.
+func WithRequestJSONSchema(raw interface{}) GenerateOption {
+	return func(o *GenerateOptions) {
+		o.ParametersJSONSchema = raw
+	}
+}
+
+// WithResponseSchema sets the structured output schema.
+func WithResponseSchema(schema *TypeSchema) GenerateOption {
+	return func(o *GenerateOptions) {
+		o.ResponseSchema = schema
+		o.ResponseMIMEType = "application/json"
+	}
+}
+
+// WithResponseJSONSchema sets the raw JSON-schema for output.
+func WithResponseJSONSchema(raw interface{}) GenerateOption {
+	return func(o *GenerateOptions) {
+		o.ResponseJSONSchema = raw
+		o.ResponseMIMEType = "application/json"
+	}
+}
+
+// WithResponseMIMEType manually sets MIME type (advanced)
+func WithResponseMIMEType(mime string) GenerateOption {
+	return func(o *GenerateOptions) {
+		o.ResponseMIMEType = mime
 	}
 }
 
@@ -254,10 +327,11 @@ func NewEmbeddingOptions() *EmbeddingOptions {
 }
 
 type EndpointConfig struct {
-	BaseURL    string            // Base API URL
-	Path       string            // Specific endpoint path
-	Headers    map[string]string // Common headers
-	TimeoutSec int               // Request timeout in seconds
+	BaseURL      string            // Base API URL
+	Path         string            // Specific endpoint path
+	Headers      map[string]string // Common headers
+	TimeoutSec   int               // Request timeout in seconds
+	SchemaConfig *SchemaConfig
 }
 
 // TransportConfig configures HTTP connection pooling behavior for LLM requests.
@@ -324,8 +398,9 @@ type BaseLLM struct {
 	modelID      ModelID
 	capabilities []Capability
 
-	endpoint *EndpointConfig // Optional endpoint configuration
-	client   *http.Client    // Common HTTP client
+	endpoint     *EndpointConfig // Optional endpoint configuration
+	client       *http.Client    // Common HTTP client
+	schemaConfig *SchemaConfig
 }
 
 // ProviderName implements LLM interface.
@@ -382,6 +457,7 @@ func NewBaseLLM(providerName string, modelID ModelID, capabilities []Capability,
 		capabilities: capabilities,
 		endpoint:     endpoint,
 		client:       client,
+		schemaConfig: endpoint.SchemaConfig,
 	}
 
 	// Apply custom options (e.g., WithTransportConfig)
@@ -580,13 +656,13 @@ type ModelID string
 
 const (
 	// Anthropic models - Claude 3.x and newer series.
-	ModelAnthropicHaiku               ModelID = ModelID(anthropic.ModelClaude_3_Haiku_20240307)
-	ModelAnthropicSonnet              ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929) // For backwards compatibility
-	ModelAnthropicSonnet35            ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
-	ModelAnthropicOpus                ModelID = ModelID(anthropic.ModelClaudeOpus4_1_20250805)
-	ModelAnthropicClaude4Opus         ModelID = ModelID(anthropic.ModelClaudeOpus4_1_20250805)
-	ModelAnthropicClaude4Sonnet       ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
-	ModelAnthropicClaude45Sonnet      ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
+	ModelAnthropicHaiku          ModelID = ModelID(anthropic.ModelClaude_3_Haiku_20240307)
+	ModelAnthropicSonnet         ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929) // For backwards compatibility
+	ModelAnthropicSonnet35       ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
+	ModelAnthropicOpus           ModelID = ModelID(anthropic.ModelClaudeOpus4_1_20250805)
+	ModelAnthropicClaude4Opus    ModelID = ModelID(anthropic.ModelClaudeOpus4_1_20250805)
+	ModelAnthropicClaude4Sonnet  ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
+	ModelAnthropicClaude45Sonnet ModelID = ModelID(anthropic.ModelClaudeSonnet4_5_20250929)
 
 	// Google Gemini models (existing).
 	ModelGoogleGeminiFlash     ModelID = "gemini-2.5-flash"
