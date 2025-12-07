@@ -838,7 +838,6 @@ func (g *GeminiLLM) CreateEmbeddings(ctx context.Context, inputs []string, optio
 		// Add task type if specified
 		if taskType, ok := opts.Params["task_type"].(string); ok {
 			reqBody.TaskType = taskType
-
 		}
 		reqBody.Parameters = opts.Params
 
