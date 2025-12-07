@@ -23,6 +23,8 @@ type Predict struct {
 	// XML output configuration
 	xmlConfig     *interceptors.XMLConfig
 	enableXMLMode bool
+	typedSig      any // stored generically
+	forceJSON     bool
 }
 
 // Ensure Predict implements core.Module.
@@ -65,7 +67,17 @@ func (p *Predict) WithName(name string) *Predict {
 	p.DisplayName = name
 	return p
 }
+func (p *Predict) WithTypedSignature(sig any) *Predict {
+	p.typedSig = sig
+	return p
+}
 
+func (p *Predict) WithForcedJSONOutput() *Predict {
+	p.forceJSON = true
+	// remove all interceptors — JSON output needs clean request/response
+	p.SetInterceptors([]core.ModuleInterceptor{})
+	return p
+}
 func (p *Predict) WithDefaultOptions(opts ...core.Option) *Predict {
 	options := &core.ModuleOptions{}
 	for _, opt := range opts {
@@ -138,18 +150,19 @@ func (p *Predict) WithStructuredOutputConfig(config interceptors.StructuredOutpu
 // TODO(#interceptor-preservation): Implement selective removal of only XML interceptors.
 // This requires an interceptor identification mechanism since interceptors are function types.
 // Possible solutions:
-//   1. Wrap interceptors in a struct with metadata
-//   2. Maintain a separate list of XML interceptor indices
-//   3. Use a registry pattern for interceptor management
+//  1. Wrap interceptors in a struct with metadata
+//  2. Maintain a separate list of XML interceptor indices
+//  3. Use a registry pattern for interceptor management
 //
 // Until this is fixed, if you need to preserve custom interceptors:
-//   1. Save your interceptors before calling WithTextOutput()
-//   2. Re-add them after calling WithTextOutput()
+//  1. Save your interceptors before calling WithTextOutput()
+//  2. Re-add them after calling WithTextOutput()
 //
 // Example workaround:
-//   customInterceptors := predict.GetInterceptors()[:2] // Save first 2 custom interceptors
-//   predict.WithTextOutput()
-//   predict.SetInterceptors(customInterceptors) // Re-add them
+//
+//	customInterceptors := predict.GetInterceptors()[:2] // Save first 2 custom interceptors
+//	predict.WithTextOutput()
+//	predict.SetInterceptors(customInterceptors) // Re-add them
 func (p *Predict) WithTextOutput() *Predict {
 	p.enableXMLMode = false
 	p.xmlConfig = nil
@@ -457,7 +470,6 @@ func (p *Predict) Clone() core.Module {
 func (p *Predict) GetDemos() []core.Example {
 	return p.Demos
 }
-
 
 // GetXMLConfig returns the XML configuration if XML mode is enabled.
 func (p *Predict) GetXMLConfig() *interceptors.XMLConfig {
@@ -1071,13 +1083,19 @@ func NewTypedPredict[TInput, TOutput any]() *Predict {
 	typedSig := core.NewTypedSignatureCached[TInput, TOutput]()
 	legacySig := typedSig.ToLegacySignature()
 
-	predict := NewPredict(legacySig).WithTextOutput() // Typed modules use prefix-based parsing
-	// Use clearer variable names for type display
+	p := NewPredict(legacySig)
+
+	// Force JSON everywhere
+	p.WithForcedJSONOutput()
+
+	// Attach typed signature for validation and mapping
+	p.WithTypedSignature(typedSig)
+
 	var i TInput
 	var o TOutput
-	predict.DisplayName = fmt.Sprintf("TypedPredict[%T,%T]", i, o)
+	p.DisplayName = fmt.Sprintf("TypedPredict[%T,%T]", i, o)
 
-	return predict
+	return p
 }
 
 // shouldUseXMLByDefault determines if XML output should be enabled by default

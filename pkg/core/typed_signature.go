@@ -7,6 +7,284 @@ import (
 	"sync"
 )
 
+//
+// ────────────────────────────────────────────────
+//  FIELD METADATA EXTENDED FOR NESTED STRUCTURES
+// ────────────────────────────────────────────────
+//
+
+type FieldMetadata struct {
+	Name        string
+	GoFieldName string
+	Required    bool
+	Description string
+	Prefix      string
+	Type        FieldType
+	GoType      reflect.Type
+
+	// NEW
+	Item       *FieldMetadata            // for arrays
+	Properties map[string]*FieldMetadata // for nested objects
+}
+type SignatureMetadata struct {
+	Inputs      []FieldMetadata
+	Outputs     []FieldMetadata
+	Instruction string
+}
+
+//
+// ────────────────────────────────────────────────
+//  TYPED SIGNATURE IMPLEMENTATION
+// ────────────────────────────────────────────────
+//
+
+type typedSignatureImpl[TInput, TOutput any] struct {
+	inputType  reflect.Type
+	outputType reflect.Type
+	metadata   SignatureMetadata
+}
+
+//
+// ────────────────────────────────────────────────
+//  MAIN ENTRY — parse types into metadata
+// ────────────────────────────────────────────────
+//
+
+func createTypedSignatureImpl[TInput, TOutput any](inputType, outputType reflect.Type) *typedSignatureImpl[TInput, TOutput] {
+	metadata := SignatureMetadata{
+		Inputs:  parseStructFields(inputType, true),
+		Outputs: parseStructFields(outputType, false),
+	}
+
+	return &typedSignatureImpl[TInput, TOutput]{
+		inputType:  inputType,
+		outputType: outputType,
+		metadata:   metadata,
+	}
+}
+
+//
+// ────────────────────────────────────────────────
+//  STRUCT FIELD PARSER (recursive)
+// ────────────────────────────────────────────────
+//
+
+func parseStructFields(t reflect.Type, isInput bool) []FieldMetadata {
+	if t == nil || t.Kind() != reflect.Struct {
+		return nil
+	}
+	var fields []FieldMetadata
+
+	for i := 0; i < t.NumField(); i++ {
+		sf := t.Field(i)
+		if !sf.IsExported() {
+			continue
+		}
+
+		meta := parseFieldMetadataRecursive(sf, isInput)
+		fields = append(fields, meta)
+	}
+
+	return fields
+}
+
+//
+// ────────────────────────────────────────────────
+//  FIELD PARSER — RECURSIVE SUPPORT
+// ────────────────────────────────────────────────
+//
+
+func parseFieldMetadataRecursive(field reflect.StructField, isInput bool) FieldMetadata {
+	meta := FieldMetadata{
+		Name:        strings.ToLower(field.Name),
+		GoFieldName: field.Name,
+		GoType:      field.Type,
+		Type:        inferFieldType(field.Type),
+		Description: field.Name,
+		Required:    false,
+	}
+
+	// dspy:"name,required"
+	if tag := field.Tag.Get("dspy"); tag != "" {
+		parts := strings.Split(tag, ",")
+		if parts[0] != "" {
+			meta.Name = parts[0]
+		}
+		for _, p := range parts[1:] {
+			if strings.TrimSpace(p) == "required" {
+				meta.Required = true
+			}
+		}
+	}
+
+	// description:"..."
+	if desc := field.Tag.Get("description"); desc != "" {
+		meta.Description = desc
+	}
+
+	// prefix:"..."
+	if !isInput {
+		meta.Prefix = meta.Name + ":"
+	}
+	if pfx := field.Tag.Get("prefix"); pfx != "" {
+		meta.Prefix = pfx
+	}
+
+	//
+	// NESTING LOGIC
+	//
+	switch meta.Type {
+
+	case FieldTypeObject:
+		meta.Properties = parseObjectProperties(field.Type)
+
+	case FieldTypeArray:
+		meta.Item = parseArrayElement(field.Type)
+
+	}
+
+	return meta
+}
+
+//
+// ────────────────────────────────────────────────
+//  DETECT TYPE: int, bool, []string, struct, nested
+// ────────────────────────────────────────────────
+//
+
+func inferFieldType(t reflect.Type) FieldType {
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
+	switch t.Kind() {
+
+	case reflect.String:
+		return FieldTypeString
+
+	case reflect.Bool:
+		return FieldTypeBool
+
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return FieldTypeInt
+
+	case reflect.Slice:
+		if t.Elem().Kind() == reflect.Uint8 {
+			return FieldTypeImage
+		}
+		return FieldTypeArray
+
+	case reflect.Map, reflect.Struct:
+		return FieldTypeObject
+
+	default:
+		return FieldTypeText
+	}
+}
+
+//
+// ────────────────────────────────────────────────
+//  RECURSIVE PARSING OF OBJECT FIELDS
+// ────────────────────────────────────────────────
+//
+
+func parseObjectProperties(t reflect.Type) map[string]*FieldMetadata {
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
+	props := map[string]*FieldMetadata{}
+	if t.Kind() != reflect.Struct {
+		return props
+	}
+
+	for i := 0; i < t.NumField(); i++ {
+		sf := t.Field(i)
+		if !sf.IsExported() {
+			continue
+		}
+
+		child := parseFieldMetadataRecursive(sf, true)
+		props[child.Name] = &child
+	}
+
+	return props
+}
+
+//
+// ────────────────────────────────────────────────
+//  RECURSIVE PARSING OF ARRAY ITEMS
+// ────────────────────────────────────────────────
+//
+
+func parseArrayElement(t reflect.Type) *FieldMetadata {
+	elem := t.Elem()
+
+	fakeField := reflect.StructField{
+		Name: elem.Name(),
+		Type: elem,
+		Tag:  "",
+	}
+
+	meta := parseFieldMetadataRecursive(fakeField, true)
+	return &meta
+}
+
+//
+// ────────────────────────────────────────────────
+//  VALIDATION — supports nested object fields
+// ────────────────────────────────────────────────
+//
+
+func validateStruct(value any, expected []FieldMetadata, fieldType string) error {
+	if value == nil {
+		return fmt.Errorf("%s cannot be nil", fieldType)
+	}
+
+	v := reflect.ValueOf(value)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+
+	if v.Kind() != reflect.Struct {
+		return fmt.Errorf("%s must be struct", fieldType)
+	}
+
+	for _, expectedField := range expected {
+		field := v.FieldByName(expectedField.GoFieldName)
+
+		if !expectedField.Required {
+			continue
+		}
+
+		if !field.IsValid() || field.IsZero() {
+			return fmt.Errorf("required %s field '%s' cannot be empty", fieldType, expectedField.Name)
+		}
+
+		// Nested object validation
+		if expectedField.Type == FieldTypeObject {
+			err := validateStruct(field.Interface(), flatten(expectedField.Properties), fieldType+"."+expectedField.Name)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func flatten(m map[string]*FieldMetadata) []FieldMetadata {
+	result := []FieldMetadata{}
+	for _, v := range m {
+		result = append(result, *v)
+	}
+	return result
+}
+
+//
+// REST OF FILE REMAINS UNCHANGED
+//
+
 // TypedSignature provides compile-time type safety for module inputs and outputs.
 type TypedSignature[TInput, TOutput any] interface {
 	// GetInputType returns the reflect.Type for the input struct
@@ -32,44 +310,6 @@ type TypedSignature[TInput, TOutput any] interface {
 }
 
 // SignatureMetadata contains parsed information from struct tags.
-type SignatureMetadata struct {
-	Inputs      []FieldMetadata
-	Outputs     []FieldMetadata
-	Instruction string
-}
-
-// FieldMetadata represents parsed struct tag information.
-type FieldMetadata struct {
-	Name        string       // Field name from struct tag or field name
-	GoFieldName string       // Original Go struct field name for direct lookup
-	Required    bool         // Whether field is required
-	Description string       // Field description
-	Prefix      string       // Output prefix for LLM generation
-	Type        FieldType    // Field type (text, image, audio)
-	GoType      reflect.Type // The actual Go type
-}
-
-// typedSignatureImpl implements TypedSignature.
-type typedSignatureImpl[TInput, TOutput any] struct {
-	inputType  reflect.Type
-	outputType reflect.Type
-	metadata   SignatureMetadata
-}
-
-// createTypedSignatureImpl is a helper function that creates a TypedSignature implementation.
-// This reduces code duplication between cached and non-cached versions.
-func createTypedSignatureImpl[TInput, TOutput any](inputType, outputType reflect.Type) *typedSignatureImpl[TInput, TOutput] {
-	metadata := SignatureMetadata{
-		Inputs:  parseStructFields(inputType, true),
-		Outputs: parseStructFields(outputType, false),
-	}
-
-	return &typedSignatureImpl[TInput, TOutput]{
-		inputType:  inputType,
-		outputType: outputType,
-		metadata:   metadata,
-	}
-}
 
 // getReflectTypes extracts and normalizes reflect.Type information for the given generic types.
 // It handles pointer types by extracting the underlying element type.
@@ -206,39 +446,11 @@ func (ts *typedSignatureImpl[TInput, TOutput]) WithInstruction(instruction strin
 	}
 }
 
-// parseStructFields extracts field metadata from struct tags.
-func parseStructFields(t reflect.Type, isInput bool) []FieldMetadata {
-	if t == nil {
-		return nil
-	}
-
-	// Handle non-struct types
-	if t.Kind() != reflect.Struct {
-		return nil
-	}
-
-	var fields []FieldMetadata
-
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
-
-		// Skip unexported fields
-		if !field.IsExported() {
-			continue
-		}
-
-		metadata := parseFieldMetadata(field, isInput)
-		fields = append(fields, metadata)
-	}
-
-	return fields
-}
-
 // parseFieldMetadata parses struct tag information for a single field.
 func parseFieldMetadata(field reflect.StructField, isInput bool) FieldMetadata {
 	metadata := FieldMetadata{
 		Name:        strings.ToLower(field.Name),
-		GoFieldName: field.Name,                 // Cache the Go field name for efficient lookup
+		GoFieldName: field.Name, // Cache the Go field name for efficient lookup
 		GoType:      field.Type,
 		Type:        FieldTypeText, // Default to text
 		Required:    false,         // Default to optional
@@ -282,79 +494,6 @@ func parseFieldMetadata(field reflect.StructField, isInput bool) FieldMetadata {
 	metadata.Type = inferFieldType(field.Type)
 
 	return metadata
-}
-
-// inferFieldType determines DSPy field type from Go type.
-func inferFieldType(t reflect.Type) FieldType {
-	// Handle pointer types
-	if t.Kind() == reflect.Ptr {
-		t = t.Elem()
-	}
-
-	switch t {
-	case reflect.TypeOf([]byte{}):
-		return FieldTypeImage // Assume byte slices are images
-	default:
-		return FieldTypeText
-	}
-}
-
-// validateStruct performs runtime validation of struct fields and maps.
-func validateStruct(value any, expectedFields []FieldMetadata, fieldType string) error {
-	if value == nil {
-		return fmt.Errorf("%s cannot be nil", fieldType)
-	}
-
-	v := reflect.ValueOf(value)
-
-	// Handle pointer types
-	if v.Kind() == reflect.Ptr {
-		if v.IsNil() {
-			return fmt.Errorf("%s cannot be nil", fieldType)
-		}
-		v = v.Elem()
-	}
-
-	// Handle map validation (for legacy signatures)
-	if v.Kind() == reflect.Map {
-		for _, expected := range expectedFields {
-			if !expected.Required {
-				continue
-			}
-			key := reflect.ValueOf(expected.Name)
-			mapValue := v.MapIndex(key)
-			if !mapValue.IsValid() || mapValue.IsZero() {
-				return fmt.Errorf("required %s field '%s' cannot be empty", fieldType, expected.Name)
-			}
-		}
-		return nil
-	}
-
-	// Handle struct validation
-	if v.Kind() != reflect.Struct {
-		return fmt.Errorf("%s must be a struct or map, got %s", fieldType, v.Kind())
-	}
-
-	// Validate required fields using cached Go field names
-	for _, expected := range expectedFields {
-		if !expected.Required {
-			continue
-		}
-
-		// Use cached GoFieldName for efficient lookup. It is guaranteed to be populated.
-		field := v.FieldByName(expected.GoFieldName)
-
-		if !field.IsValid() {
-			return fmt.Errorf("required %s field '%s' is missing", fieldType, expected.Name)
-		}
-
-		// Check if field is zero value
-		if field.IsZero() {
-			return fmt.Errorf("required %s field '%s' cannot be empty", fieldType, expected.Name)
-		}
-	}
-
-	return nil
 }
 
 // Backward compatibility: convert legacy signature to typed.

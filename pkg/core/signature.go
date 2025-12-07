@@ -9,9 +9,14 @@ import (
 type FieldType string
 
 const (
-	FieldTypeText  FieldType = "text"
-	FieldTypeImage FieldType = "image"
-	FieldTypeAudio FieldType = "audio"
+	FieldTypeText   FieldType = "text"
+	FieldTypeImage  FieldType = "image"
+	FieldTypeAudio  FieldType = "audio"
+	FieldTypeInt    FieldType = "int"
+	FieldTypeBool   FieldType = "bool"
+	FieldTypeString FieldType = "string"
+	FieldTypeArray  FieldType = "array"
+	FieldTypeObject FieldType = "object"
 )
 
 // Field represents a single field in a signature.
@@ -19,10 +24,12 @@ type Field struct {
 	Name        string
 	Description string
 	Prefix      string
-	Type        FieldType // Default is FieldTypeText for backward compatibility
+	Type        FieldType         // Data type for the field
+	Items       *Field            // For array types, this represents the item type
+	Properties  map[string]*Field // For object types, this holds nested fields
 }
 
-// NewField creates a new Field with smart defaults.
+// NewField creates a new Field with smart defaults and customizable options.
 func NewField(name string, opts ...FieldOption) Field {
 	// Start with sensible defaults
 	f := Field{
@@ -42,7 +49,7 @@ func NewField(name string, opts ...FieldOption) Field {
 // FieldOption allows customization of Field creation.
 type FieldOption func(*Field)
 
-// WithDescription sets a custom description.
+// WithDescription sets a custom description for the field.
 func WithDescription(desc string) FieldOption {
 	return func(f *Field) {
 		f.Description = desc
@@ -70,21 +77,49 @@ func WithFieldType(fieldType FieldType) FieldOption {
 	}
 }
 
-// NewImageField creates a new image field.
-func NewImageField(name string, opts ...FieldOption) Field {
-	opts = append(opts, WithFieldType(FieldTypeImage))
+// WithArrayType sets the field type as array and assigns the item type.
+func WithArrayType(itemType *Field) FieldOption {
+	return func(f *Field) {
+		f.Type = FieldTypeArray
+		f.Items = itemType
+	}
+}
+
+// WithObjectType sets the field type as object and assigns nested fields.
+func WithObjectType(properties map[string]*Field) FieldOption {
+	return func(f *Field) {
+		f.Type = FieldTypeObject
+		f.Properties = properties
+	}
+}
+
+// NewIntField creates a new field of type int.
+func NewIntField(name string, opts ...FieldOption) Field {
+	opts = append(opts, WithFieldType(FieldTypeInt))
 	return NewField(name, opts...)
 }
 
-// NewAudioField creates a new audio field.
-func NewAudioField(name string, opts ...FieldOption) Field {
-	opts = append(opts, WithFieldType(FieldTypeAudio))
+// NewBoolField creates a new field of type bool.
+func NewBoolField(name string, opts ...FieldOption) Field {
+	opts = append(opts, WithFieldType(FieldTypeBool))
 	return NewField(name, opts...)
 }
 
-// NewTextField creates a new text field (explicit version of NewField).
-func NewTextField(name string, opts ...FieldOption) Field {
-	opts = append(opts, WithFieldType(FieldTypeText))
+// NewStringField creates a new field of type string.
+func NewStringField(name string, opts ...FieldOption) Field {
+	opts = append(opts, WithFieldType(FieldTypeString))
+	return NewField(name, opts...)
+}
+
+// NewArrayField creates a new array field of a specific item type.
+func NewArrayField(name string, itemType *Field, opts ...FieldOption) Field {
+	opts = append(opts, WithArrayType(itemType))
+	return NewField(name, opts...)
+}
+
+// NewObjectField creates a new object field with nested fields.
+func NewObjectField(name string, properties map[string]*Field, opts ...FieldOption) Field {
+	opts = append(opts, WithObjectType(properties))
 	return NewField(name, opts...)
 }
 
