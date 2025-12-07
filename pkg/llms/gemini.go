@@ -72,14 +72,14 @@ type geminiFileData struct {
 }
 
 type geminiGenerationConfig struct {
-	Temperature          float64          `json:"temperature,omitempty"`
-	MaxOutputTokens      int              `json:"maxOutputTokens,omitempty"`
-	TopP                 float64          `json:"topP,omitempty"`
-	Parameters           *core.TypeSchema `json:"parameters,omitempty"`
-	ResponseSchema       *core.TypeSchema `json:"responseSchema,omitempty"`
-	ParametersJsonSchema interface{}      `json:"parametersJsonSchema,omitempty"`
-	ResponseJSON         interface{}      `json:"responseJsonSchema,omitempty"`
-	ResponseMIMEType     string           `json:"ResponseMIMEType,omitempty"`
+	Temperature          float64           `json:"temperature,omitempty"`
+	MaxOutputTokens      int               `json:"maxOutputTokens,omitempty"`
+	TopP                 float64           `json:"topP,omitempty"`
+	Parameters           *utils.TypeSchema `json:"parameters,omitempty"`
+	ResponseSchema       *utils.TypeSchema `json:"responseSchema,omitempty"`
+	ParametersJsonSchema interface{}       `json:"parametersJsonSchema,omitempty"`
+	ResponseJSON         interface{}       `json:"responseJsonSchema,omitempty"`
+	ResponseMIMEType     string            `json:"ResponseMIMEType,omitempty"`
 }
 
 // GeminiResponse represents the response structure from Gemini API.

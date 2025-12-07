@@ -30,7 +30,6 @@ type Module interface {
 	GetModuleType() string
 }
 
-
 // InterceptableModule extends Module with interceptor support.
 // This interface provides backward-compatible enhancement for modules that support interceptors.
 type InterceptableModule interface {
@@ -320,8 +319,18 @@ func ProcessTypedWithValidation[TInput, TOutput any](ctx context.Context, module
 	var zero TOutput
 
 	// Create typed signature for validation (cached for performance)
-	typedSig := NewTypedSignatureCached[TInput, TOutput]()
 
+	inputSchema := utils.BuildSchemaFromStruct[TInput](inputs)
+	outputSchema := utils.BuildSchemaFromStruct[TOutput](zero)
+	schemaOptions := WithGenerateOptions(
+		WithRequestSchema(inputSchema),
+		WithResponseSchema(outputSchema),
+		WithResponseMIMEType("application/json"),
+	)
+
+	opts = append(opts, schemaOptions)
+
+	typedSig := NewTypedSignatureCached[TInput, TOutput]()
 	// Validate inputs
 	if err := typedSig.ValidateInput(inputs); err != nil {
 		return zero, err

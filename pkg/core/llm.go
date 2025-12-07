@@ -9,37 +9,13 @@ import (
 
 	"github.com/anthropics/anthropic-sdk-go"
 	"github.com/darwishdev/dspy-go/pkg/errors"
+	"github.com/darwishdev/dspy-go/pkg/utils"
 )
 
-type TypeSchema struct {
-	AnyOf            []*TypeSchema          `json:"anyOf,omitempty"`
-	Default          interface{}            `json:"default,omitempty"`
-	Description      string                 `json:"description,omitempty"`
-	Enum             []string               `json:"enum,omitempty"`
-	Example          interface{}            `json:"example,omitempty"`
-	Format           string                 `json:"format,omitempty"`
-	Items            *TypeSchema            `json:"items,omitempty"`
-	MaxItems         *int64                 `json:"maxItems,omitempty"`
-	MaxLength        *int64                 `json:"maxLength,omitempty"`
-	MaxProperties    *int64                 `json:"maxProperties,omitempty"`
-	Maximum          *float64               `json:"maximum,omitempty"`
-	MinItems         *int64                 `json:"minItems,omitempty"`
-	MinLength        *int64                 `json:"minLength,omitempty"`
-	MinProperties    *int64                 `json:"minProperties,omitempty"`
-	Minimum          *float64               `json:"minimum,omitempty"`
-	Nullable         *bool                  `json:"nullable,omitempty"`
-	Pattern          string                 `json:"pattern,omitempty"`
-	Properties       map[string]*TypeSchema `json:"properties,omitempty"`
-	PropertyOrdering []string               `json:"propertyOrdering,omitempty"`
-	Required         []string               `json:"required,omitempty"`
-	Title            string                 `json:"title,omitempty"`
-	Type             string                 `json:"type,omitempty"`
-}
-
 type SchemaConfig struct {
-	RequestSchema      *TypeSchema
+	RequestSchema      *utils.TypeSchema
 	RequestJSONSchema  interface{}
-	ResponseSchema     *TypeSchema
+	ResponseSchema     *utils.TypeSchema
 	ResponseJSONSchema interface{}
 	ResponseMIMEType   string
 }
@@ -171,9 +147,9 @@ type GenerateOptions struct {
 	FrequencyPenalty float64
 	Stop             []string
 
-	Parameters           *TypeSchema
+	Parameters           *utils.TypeSchema
 	ParametersJSONSchema interface{}
-	ResponseSchema       *TypeSchema
+	ResponseSchema       *utils.TypeSchema
 	ResponseJSONSchema   interface{}
 	ResponseMIMEType     string
 }
@@ -217,7 +193,7 @@ func NewGenerateOptions() *GenerateOptions {
 		Temperature: 0.5,  // Default temperature
 	}
 }
-func WithRequestSchema(schema *TypeSchema) GenerateOption {
+func WithRequestSchema(schema *utils.TypeSchema) GenerateOption {
 	return func(o *GenerateOptions) {
 		o.Parameters = schema
 	}
@@ -231,7 +207,7 @@ func WithRequestJSONSchema(raw interface{}) GenerateOption {
 }
 
 // WithResponseSchema sets the structured output schema.
-func WithResponseSchema(schema *TypeSchema) GenerateOption {
+func WithResponseSchema(schema *utils.TypeSchema) GenerateOption {
 	return func(o *GenerateOptions) {
 		o.ResponseSchema = schema
 		o.ResponseMIMEType = "application/json"
