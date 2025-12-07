@@ -61,7 +61,7 @@ func buildSchemaFromType(t reflect.Type) *TypeSchema {
 
 	switch t.Kind() {
 	case reflect.Struct:
-		s.Type = string(TypeString)
+		s.Type = string(TypeObject)
 		s.Properties = map[string]*TypeSchema{}
 
 		for i := 0; i < t.NumField(); i++ {
