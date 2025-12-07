@@ -995,8 +995,7 @@ func parseJSONResponse(content string, signature core.Signature) string {
 	return strings.TrimSpace(result.String())
 }
 
-// ProcessTyped provides type-safe processing with compile-time type validation.
-func ProcessTyped[TInput, TOutput any](ctx context.Context, predict *Predict, inputs TInput, opts ...core.Option) (TOutput, error) {
+func ProcessTypedDirect[TInput, TOutput any](ctx context.Context, predict *Predict, inputs TInput, opts ...core.Option) (TOutput, error) {
 	var zero TOutput
 
 	// Convert typed inputs to legacy format
@@ -1029,6 +1028,51 @@ func ProcessTyped[TInput, TOutput any](ctx context.Context, predict *Predict, in
 	}
 
 	return typedOutputs, nil
+}
+
+// ProcessTyped provides type-safe processing with compile-time type validation.
+func ProcessTyped[TInput, TOutput any](ctx context.Context, predict *Predict, inputs TInput, opts ...core.Option) (TOutput, error) {
+	var zero TOutput
+
+	// Convert typed inputs to legacy format
+	legacyInputs, err := utils.ConvertTypedInputsToLegacy(inputs)
+	if err != nil {
+		return zero, errors.WithFields(
+			errors.Wrap(err, errors.InvalidInput, "failed to convert typed inputs"),
+			errors.Fields{
+				"module": "Predict",
+				"type":   fmt.Sprintf("%T", inputs),
+			})
+	}
+
+	// Call the legacy Process method
+	legacyOutputs, err := predict.Process(ctx, legacyInputs, opts...)
+	if err != nil {
+		return zero, err
+	}
+
+	// Convert legacy outputs to typed format
+	jsonBytes, err := json.Marshal(legacyOutputs)
+	if err != nil {
+		return zero, fmt.Errorf("failed to marshal legacy outputs: %w", err)
+	}
+
+	// Unmarshal JSON → typed struct
+	var typed TOutput
+	if err := json.Unmarshal(jsonBytes, &typed); err != nil {
+		return zero, fmt.Errorf("failed to unmarshal into typed output: %w", err)
+	}
+	if err != nil {
+		return zero, errors.WithFields(
+			errors.Wrap(err, errors.InvalidResponse, "failed to convert legacy outputs"),
+			errors.Fields{
+				"module":  "Predict",
+				"type":    fmt.Sprintf("%T", zero),
+				"outputs": legacyOutputs,
+			})
+	}
+
+	return typed, nil
 }
 
 // ProcessTypedWithValidation provides type-safe processing with input and output validation.
